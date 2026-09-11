@@ -1,0 +1,1393 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>원주시정신건강복지센터 안내문자</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Gowun+Batang:wght@400;700&display=swap');
+
+  :root{
+    --bg:#eef1ec;
+    --surface:#ffffff;
+    --surface-alt:#e4e9e2;
+    --border:#d3dad0;
+    --ink:#232922;
+    --ink-muted:#5c6459;
+    --accent:#2e6f5e;
+    --accent-strong:#1d4a3f;
+    --accent-soft:#d9eae3;
+    --gold:#b98a3d;
+    --gold-soft:#f2e6ce;
+    --danger:#b4413a;
+    --danger-soft:#f4dcd9;
+    --shadow: 0 1px 2px rgba(35,41,34,.06), 0 6px 20px -8px rgba(35,41,34,.15);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14201c;
+      --surface:#1b2822;
+      --surface-alt:#22322b;
+      --border:#33463c;
+      --ink:#e7ede7;
+      --ink-muted:#a8b3a9;
+      --accent:#6fc3a8;
+      --accent-strong:#8fdbc1;
+      --accent-soft:#24473c;
+      --gold:#e0b15e;
+      --gold-soft:#3a2f1c;
+      --danger:#e08277;
+      --danger-soft:#3d2624;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px -8px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14201c;
+    --surface:#1b2822;
+    --surface-alt:#22322b;
+    --border:#33463c;
+    --ink:#e7ede7;
+    --ink-muted:#a8b3a9;
+    --accent:#6fc3a8;
+    --accent-strong:#8fdbc1;
+    --accent-soft:#24473c;
+    --gold:#e0b15e;
+    --gold-soft:#3a2f1c;
+    --danger:#e08277;
+    --danger-soft:#3d2624;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px -8px rgba(0,0,0,.5);
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ background:var(--bg); }
+  body{
+    margin:0; color:var(--ink);
+    font-family:'Noto Sans KR', -apple-system, 'Malgun Gothic', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{ max-width:1180px; margin:0 auto; padding:32px 24px 64px; }
+
+  header.top{
+    display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
+    padding-bottom:20px; margin-bottom:24px; border-bottom:1px solid var(--border);
+    flex-wrap:wrap;
+  }
+  .eyebrow{
+    font-size:12.5px; letter-spacing:.08em; color:var(--accent-strong);
+    font-weight:700; text-transform:uppercase; margin:0 0 6px;
+  }
+  h1{
+    font-family:'Gowun Batang', 'Noto Sans KR', serif;
+    font-weight:700; font-size:30px; margin:0; color:var(--ink);
+    text-wrap:balance;
+  }
+  .top-meta{ font-size:13px; color:var(--ink-muted); text-align:right; max-width:340px; }
+
+  .tabs{ display:flex; gap:6px; margin-bottom:20px; }
+  .tab-btn{
+    font:inherit; font-weight:600; font-size:14px; padding:9px 18px; border-radius:10px 10px 0 0;
+    border:1px solid var(--border); border-bottom:none; background:var(--surface-alt); color:var(--ink-muted);
+    cursor:pointer;
+  }
+  .tab-btn.active{ background:var(--surface); color:var(--accent-strong); box-shadow:var(--shadow); }
+  .tab-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  .panel{ display:none; }
+  .panel.active{ display:block; }
+
+  .grid{ display:grid; grid-template-columns:1.15fr 1fr; gap:22px; align-items:start; }
+  @media (max-width:880px){ .grid{ grid-template-columns:1fr; } }
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:22px 24px; box-shadow:var(--shadow);
+  }
+  .card + .card{ margin-top:18px; }
+  .card h2{
+    font-size:15px; margin:0 0 4px; color:var(--ink); font-weight:700;
+    display:flex; align-items:center; gap:8px;
+  }
+  .card .hint{ font-size:12.5px; color:var(--ink-muted); margin:0 0 16px; line-height:1.5; }
+  .req-badge{
+    font-size:10.5px; font-weight:700; letter-spacing:.03em; color:var(--accent-strong);
+    background:var(--accent-soft); padding:2px 7px; border-radius:5px;
+  }
+  .opt-badge{
+    font-size:10.5px; font-weight:700; letter-spacing:.03em; color:var(--ink-muted);
+    background:var(--surface-alt); padding:2px 7px; border-radius:5px;
+  }
+
+  .field{ margin-bottom:14px; }
+  .field:last-child{ margin-bottom:0; }
+  .field label{ display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:var(--ink); }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .row3{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:12px; }
+  @media (max-width:520px){ .row3{ grid-template-columns:1fr; } }
+
+  input[type=text], input[type=date], input[type=time], select, textarea{
+    width:100%; font:inherit; font-size:14px; padding:9px 11px; border-radius:8px;
+    border:1px solid var(--border); background:var(--surface); color:var(--ink);
+  }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible{
+    outline:2px solid var(--accent); outline-offset:1px;
+  }
+
+  .toggle-row{
+    display:flex; align-items:flex-start; gap:10px; padding:11px 12px; border:1px solid var(--border);
+    border-radius:10px; background:var(--surface-alt); cursor:pointer;
+  }
+  .toggle-row + .toggle-row{ margin-top:8px; }
+  .toggle-row input{ margin-top:3px; width:16px; height:16px; accent-color:var(--accent); flex:none; cursor:pointer; }
+  .toggle-row .t-label{ font-size:13.5px; font-weight:600; }
+  .toggle-row .t-sub{ font-size:12px; color:var(--ink-muted); margin-top:2px; }
+
+  .card-body{ margin-top:14px; }
+
+  .inst-list{ margin-top:10px; display:flex; flex-direction:column; gap:6px; max-height:220px; overflow-y:auto; padding-right:2px; }
+  .inst-item{
+    display:flex; align-items:flex-start; gap:9px; padding:8px 10px; border:1px solid var(--border);
+    border-radius:8px; background:var(--surface); font-size:13px;
+  }
+  .inst-item input{ margin-top:3px; width:15px; height:15px; accent-color:var(--accent); flex:none; }
+  .inst-item .i-name{ font-weight:600; }
+  .inst-item .i-meta{ color:var(--ink-muted); font-size:12px; margin-top:1px; }
+  .chip{ display:inline-block; font-size:10px; font-weight:700; padding:1px 6px; border-radius:5px; margin-left:6px; vertical-align:1px; }
+  .chip.hospital{ background:var(--accent-soft); color:var(--accent-strong); }
+  .chip.agency{ background:var(--gold-soft); color:var(--gold); }
+
+  .btn{
+    font:inherit; font-weight:700; font-size:14px; padding:11px 18px; border-radius:9px; border:none;
+    cursor:pointer; background:var(--accent); color:#fff; box-shadow:var(--shadow);
+  }
+  .btn:hover{ background:var(--accent-strong); }
+  .btn:disabled{ opacity:.45; cursor:not-allowed; }
+  .btn.secondary{ background:var(--surface-alt); color:var(--ink); box-shadow:none; border:1px solid var(--border); }
+  .btn.secondary:hover{ background:var(--border); }
+  .btn.small{ padding:6px 11px; font-size:12.5px; border-radius:7px; }
+  .btn.danger{ background:var(--danger); }
+  .btn.danger:hover{ filter:brightness(.92); }
+  .btn.icon{ background:transparent; box-shadow:none; padding:5px 8px; color:var(--ink-muted); border:1px solid transparent; }
+  .btn.icon:hover{ background:var(--surface-alt); color:var(--ink); }
+
+  .error-box{
+    font-size:12.5px; color:var(--danger); background:var(--danger-soft); border-radius:8px;
+    padding:9px 12px; margin-top:12px; display:none; line-height:1.5;
+  }
+  .error-box.show{ display:block; }
+
+  .preview-wrap{ position:sticky; top:20px; }
+  .preview-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .msg-box{
+    white-space:pre-wrap; word-break:break-word; font-size:14.5px; line-height:1.65;
+    background:var(--surface-alt); border:1px dashed var(--border); border-radius:10px;
+    padding:16px 18px; min-height:220px; color:var(--ink);
+  }
+  .msg-box.empty{ color:var(--ink-muted); font-style:normal; }
+  .meter{ display:flex; align-items:center; justify-content:space-between; margin-top:10px; font-size:12px; color:var(--ink-muted); }
+  .meter .tag{ font-weight:700; padding:2px 8px; border-radius:6px; font-size:11px; letter-spacing:.02em; }
+  .tag.sms{ background:var(--accent-soft); color:var(--accent-strong); }
+  .tag.lms{ background:var(--gold-soft); color:var(--gold); }
+  .copy-row{ display:flex; gap:8px; margin-top:14px; }
+  .copied-flag{ font-size:12.5px; color:var(--accent-strong); font-weight:700; align-self:center; opacity:0; transition:opacity .2s; }
+  .copied-flag.show{ opacity:1; }
+
+  /* management tables (institutions + encouragements) */
+  .inst-table{ width:100%; border-collapse:collapse; font-size:13px; }
+  .inst-table th{
+    text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-muted);
+    padding:0 10px 8px; border-bottom:1px solid var(--border); font-weight:700;
+  }
+  .inst-table td{ padding:10px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .inst-table tr:last-child td{ border-bottom:none; }
+  .inst-table input, .inst-table select, .inst-table textarea{ font-size:12.5px; padding:6px 8px; }
+  .actions-cell{ white-space:nowrap; text-align:right; }
+  .confirm-del{ display:flex; gap:6px; justify-content:flex-end; align-items:center; }
+  .confirm-del span{ font-size:12px; color:var(--danger); font-weight:600; }
+
+  .add-form{
+    display:grid; grid-template-columns:1.3fr 1fr 1.6fr 1.3fr .9fr auto; gap:8px; margin-top:16px; align-items:end;
+  }
+  @media (max-width:880px){ .add-form{ grid-template-columns:1fr 1fr; } }
+  .add-form.two-col{ grid-template-columns:1fr 2fr auto; }
+  @media (max-width:880px){ .add-form.two-col{ grid-template-columns:1fr; } }
+  .add-form label{ font-size:11px; font-weight:700; color:var(--ink-muted); display:block; margin-bottom:4px; }
+
+  .notice{
+    font-size:12.5px; color:var(--gold); background:var(--gold-soft); border-radius:8px;
+    padding:9px 12px; margin-bottom:16px; line-height:1.5;
+  }
+  .section-divider{ height:1px; background:var(--border); margin:26px 0 22px; }
+
+  ::-webkit-scrollbar{ width:9px; height:9px; }
+  ::-webkit-scrollbar-thumb{ background:var(--border); border-radius:6px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">원주시정신건강복지센터</p>
+      <h1>상담 안내문자 생성기</h1>
+    </div>
+    <div class="top-meta">필요한 항목만 켜서 문자 전문을 만듭니다. 상담 예약 없이 병원·기관 정보만 안내하는 문자도 만들 수 있습니다.</div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="compose" type="button">✉️ 문자 만들기</button>
+    <button class="tab-btn" data-tab="manage" type="button">🗂 목록 관리</button>
+  </div>
+
+  <!-- COMPOSE -->
+  <section class="panel active" id="panel-compose">
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h2>상담 안내 <span class="opt-badge">선택</span></h2>
+          <p class="hint">상담 예약이 있을 때만 켭니다. 병원/기관 정보만 안내할 때는 꺼두세요.</p>
+          <label class="toggle-row">
+            <input type="checkbox" id="f-consult-toggle" checked>
+            <span>
+              <span class="t-label">상담 안내 포함</span>
+              <span class="t-sub">이름·날짜·시간·상담 유형을 문자에 넣습니다.</span>
+            </span>
+          </label>
+
+          <div class="card-body" id="consult-fields-wrap">
+            <div class="field">
+              <label for="f-name">예약자 이름</label>
+              <input type="text" id="f-name" placeholder="예: 김유정" autocomplete="off">
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="f-date">상담 날짜</label>
+                <input type="date" id="f-date">
+              </div>
+              <div class="field">
+                <label for="f-time">상담 시간</label>
+                <input type="time" id="f-time">
+              </div>
+            </div>
+            <div class="field">
+              <label for="f-type">상담 유형</label>
+              <select id="f-type">
+                <option value="내소상담">내소상담</option>
+                <option value="전화상담">전화상담</option>
+                <option value="방문상담">방문상담</option>
+                <option value="__custom">기타 (직접 입력)</option>
+              </select>
+            </div>
+            <div class="field" id="f-type-custom-wrap" style="display:none;">
+              <label for="f-type-custom">상담 유형 직접 입력</label>
+              <input type="text" id="f-type-custom" placeholder="예: 집단상담">
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label for="f-encourage">상황별 격려 멘트 (선택)</label>
+              <select id="f-encourage"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>병원 정보 안내 <span class="opt-badge">선택</span></h2>
+          <p class="hint">의료기관(병원·의원)을 안내할 때 켭니다. 여러 곳을 함께 안내할 수 있습니다.</p>
+          <label class="toggle-row">
+            <input type="checkbox" id="f-hospital-toggle">
+            <span>
+              <span class="t-label">병원 정보 포함</span>
+              <span class="t-sub">체크하면 아래에서 안내할 병원을 고를 수 있습니다.</span>
+            </span>
+          </label>
+          <div id="hospital-select-wrap" style="display:none;">
+            <div class="inst-list" id="hospital-list"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>기타 기관 안내 <span class="opt-badge">선택</span></h2>
+          <p class="hint">병원이 아닌 지원기관(근로자건강센터 등)을 안내할 때 켭니다. 병원 정보와 별개로 함께 켤 수 있습니다.</p>
+          <label class="toggle-row">
+            <input type="checkbox" id="f-agency-toggle">
+            <span>
+              <span class="t-label">기타 기관 정보 포함</span>
+              <span class="t-sub">체크하면 아래에서 안내할 기관을 고를 수 있습니다.</span>
+            </span>
+          </label>
+          <div id="agency-select-wrap" style="display:none;">
+            <div class="inst-list" id="agency-list"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>기타 정보 안내 <span class="opt-badge">선택</span></h2>
+          <p class="hint">온라인 검진 안내 같은 공지성 정보를 안내할 때 켭니다. 여러 항목을 함께 안내할 수 있습니다.</p>
+          <label class="toggle-row">
+            <input type="checkbox" id="f-info-toggle">
+            <span>
+              <span class="t-label">기타 정보 포함</span>
+              <span class="t-sub">체크하면 아래에서 안내할 항목을 고를 수 있습니다.</span>
+            </span>
+          </label>
+          <div id="info-select-wrap" style="display:none;">
+            <div class="inst-list" id="info-list"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>위치 · 센터 운영시간 <span class="opt-badge">선택</span></h2>
+          <p class="hint">병원/기관 안내와 함께 켜서 센터 위치도 같이 알리거나, 오시는 길만 단독으로 안내할 때 켭니다.</p>
+          <label class="toggle-row">
+            <input type="checkbox" id="f-location-toggle">
+            <span>
+              <span class="t-label">위치 · 운영시간 포함</span>
+              <span class="t-sub">원주시 원일로 139, 시민문화센터 4층 정신건강복지센터</span>
+            </span>
+          </label>
+        </div>
+
+        <div class="card">
+          <h2>발신 담당자</h2>
+          <p class="hint">문자 하단 서명에 들어갑니다. 이름을 선택하면 번호가 자동으로 채워지고, 필요하면 직접 고쳐도 됩니다.</p>
+          <div class="field">
+            <label for="f-staff-select">담당자</label>
+            <select id="f-staff-select"></select>
+          </div>
+          <div class="field" id="f-staff-name-custom-wrap" style="display:none;">
+            <label for="f-staff-name-custom">담당자 이름 직접 입력</label>
+            <input type="text" id="f-staff-name-custom" placeholder="예: 이담당">
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="f-staff-main">대표번호(내선)</label>
+              <input type="text" id="f-staff-main">
+            </div>
+            <div class="field">
+              <label for="f-staff-direct">직통번호</label>
+              <input type="text" id="f-staff-direct">
+            </div>
+          </div>
+        </div>
+
+        <div class="error-box" id="error-box"></div>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="card">
+          <div class="preview-head">
+            <h2 style="margin:0;">미리보기</h2>
+          </div>
+          <div class="msg-box empty" id="msg-box">위에서 안내할 항목을 하나 이상 켜면<br>여기에 문자 전문이 표시됩니다.</div>
+          <div class="meter">
+            <span id="byte-count">0 byte</span>
+            <span class="tag sms" id="byte-tag">SMS</span>
+          </div>
+          <div class="copy-row">
+            <button class="btn" id="copy-btn" type="button" disabled>문자 전문 복사하기</button>
+            <span class="copied-flag" id="copied-flag">복사됐습니다 ✓</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANAGE -->
+  <section class="panel" id="panel-manage">
+    <div class="card">
+      <h2>기관 목록</h2>
+      <p class="hint">이 목록은 모든 사용자에게 공유됩니다. "구분"에 따라 병원 정보 안내 / 기타 기관 안내 중 어디에서 보일지 정해집니다.</p>
+      <div id="manage-fallback-notice" class="notice" style="display:none;">
+        공유 목록을 불러올 수 없어 기본 목록만 볼 수 있습니다 (추가·수정 불가).
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="inst-table" id="inst-table">
+          <thead>
+            <tr>
+              <th style="width:20%;">기관명</th>
+              <th style="width:14%;">연락처</th>
+              <th style="width:26%;">위치</th>
+              <th style="width:20%;">운영시간</th>
+              <th style="width:10%;">구분</th>
+              <th style="width:10%;"></th>
+            </tr>
+          </thead>
+          <tbody id="inst-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="add-form" id="add-form">
+        <div><label>기관명</label><input type="text" id="add-name" placeholder="예: 원주희망의원"></div>
+        <div><label>연락처</label><input type="text" id="add-phone" placeholder="033-000-0000"></div>
+        <div><label>위치</label><input type="text" id="add-location" placeholder="원주시 …"></div>
+        <div><label>운영시간</label><input type="text" id="add-hours" placeholder="평일 09:00~18:00"></div>
+        <div>
+          <label>구분</label>
+          <select id="add-type">
+            <option value="hospital">의료기관 (병원 정보)</option>
+            <option value="agency">지원기관 (기타 기관)</option>
+          </select>
+        </div>
+        <div><button class="btn small" id="add-inst-btn" type="button" disabled>+ 추가</button></div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="card">
+      <h2>상황별 격려 멘트 목록</h2>
+      <p class="hint">상담 안내를 켰을 때 고를 수 있는 문구입니다. 이 목록도 모든 사용자에게 공유됩니다.</p>
+      <div id="enc-fallback-notice" class="notice" style="display:none;">
+        공유 목록을 불러올 수 없어 기본 문구만 볼 수 있습니다 (추가·수정 불가).
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="inst-table" id="enc-table">
+          <thead>
+            <tr>
+              <th style="width:24%;">상황</th>
+              <th style="width:62%;">멘트</th>
+              <th style="width:14%;"></th>
+            </tr>
+          </thead>
+          <tbody id="enc-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="add-form two-col" id="add-enc-form">
+        <div><label>상황</label><input type="text" id="add-enc-label" placeholder="예: 야간상담을 앞둔 분"></div>
+        <div><label>멘트</label><input type="text" id="add-enc-text" placeholder="정확히 쓰일 문구를 입력하세요"></div>
+        <div><button class="btn small" id="add-enc-btn" type="button" disabled>+ 추가</button></div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="card">
+      <h2>발신 담당자 목록</h2>
+      <p class="hint">문자 만들기 화면에서 이름을 클릭하면 대표번호·직통번호가 자동으로 채워집니다. 이 목록도 모든 사용자에게 공유됩니다.</p>
+      <div id="staff-fallback-notice" class="notice" style="display:none;">
+        공유 목록을 불러올 수 없어 기본 담당자만 볼 수 있습니다 (추가·수정 불가).
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="inst-table" id="staff-table">
+          <thead>
+            <tr>
+              <th style="width:26%;">이름</th>
+              <th style="width:30%;">대표번호(내선)</th>
+              <th style="width:30%;">직통번호</th>
+              <th style="width:14%;"></th>
+            </tr>
+          </thead>
+          <tbody id="staff-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="add-form" id="add-staff-form" style="grid-template-columns:1fr 1.2fr 1.2fr auto;">
+        <div><label>이름</label><input type="text" id="add-staff-name" placeholder="예: 이담당"></div>
+        <div><label>대표번호(내선)</label><input type="text" id="add-staff-main" placeholder="033-746-0199(내선 3)"></div>
+        <div><label>직통번호</label><input type="text" id="add-staff-direct" placeholder="070-0000-0000(직통)"></div>
+        <div><button class="btn small" id="add-staff-btn" type="button" disabled>+ 추가</button></div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="card">
+      <h2>기타 정보 목록</h2>
+      <p class="hint">온라인 검진 안내처럼 문구 전체를 그대로 붙여넣는 공지성 항목입니다. 이 목록도 모든 사용자에게 공유됩니다.</p>
+      <div id="info-fallback-notice" class="notice" style="display:none;">
+        공유 목록을 불러올 수 없어 기본 항목만 볼 수 있습니다 (추가·수정 불가).
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="inst-table" id="info-table">
+          <thead>
+            <tr>
+              <th style="width:22%;">제목</th>
+              <th style="width:64%;">내용</th>
+              <th style="width:14%;"></th>
+            </tr>
+          </thead>
+          <tbody id="info-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="add-form two-col" id="add-info-form">
+        <div><label>제목</label><input type="text" id="add-info-title" placeholder="예: 온라인 검진"></div>
+        <div><label>내용</label><textarea id="add-info-body" rows="4" placeholder="문자에 그대로 들어갈 문구를 줄바꿈 포함해서 입력하세요"></textarea></div>
+        <div><button class="btn small" id="add-info-btn" type="button" disabled>+ 추가</button></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  // 사장님이 알려주신 Supabase Project URL / anon public key를 여기에 채우면
+  // 목록 관리(병원·기타 기관·격려 멘트·담당자·기타 정보)가 로그인 없이 누구나 함께 편집하는
+  // 공유 데이터베이스로 전환됩니다. 비어 있는 동안은 아래 DEFAULT_* 값만 쓰는 로컬 모드로 동작합니다.
+  var SUPABASE_URL = '';
+  var SUPABASE_ANON_KEY = '';
+
+  var DEFAULT_ENCOURAGEMENTS = [
+    { id:'enc-01', order:1, label:'첫 상담을 앞둔 분', text:'처음이라 낯설고 걱정되실 수 있지만, 편안한 마음으로 오셔도 괜찮습니다. 함께 이야기 나누며 도움을 드리겠습니다.' },
+    { id:'enc-02', order:2, label:'상담을 이어가는 분', text:'그동안 꾸준히 함께해 주셔서 감사합니다. 한 걸음씩 나아가고 계신 모습을 응원하고 있습니다.' },
+    { id:'enc-03', order:3, label:'힘든 시기를 보내는 분', text:'요즘 많이 힘드셨을 텐데 혼자 견디지 않으셔도 됩니다. 상담 시간에 편하게 이야기해 주세요.' },
+    { id:'enc-04', order:4, label:'종결(마지막) 상담을 앞둔 분', text:'그동안 애써오신 시간들, 스스로를 충분히 칭찬해 주셔도 될 것 같습니다. 마지막까지 함께하겠습니다.' },
+    { id:'enc-05', order:5, label:'상담을 다시 시작하는 분', text:'다시 연결되어 반갑습니다. 그동안 어떻게 지내셨는지 편하게 나눠주세요.' },
+    { id:'enc-06', order:6, label:'짧은 일반 응원', text:'작은 한 걸음도 큰 용기입니다. 오늘 상담도 응원합니다.' }
+  ];
+
+  var DEFAULT_INSTITUTIONS = [
+    { id:'inst-01', order:1, name:'마음편한정신건강의학과의원', phone:'033-766-7675', location:'원주시 서원대로 406, 리더스타워 5층', hours:'월·수·목·금 09:00~18:30 / 화 09:00~12:30 / 토 09:00~13:00', type:'hospital' },
+    { id:'inst-02', order:2, name:'고석만 정신건강의학과의원', phone:'033-744-0223', location:'원주시 능라동길 59, 정한프라자 5층 509호', hours:'평일 10:00~17:00, 18:00~21:00', type:'hospital' },
+    { id:'inst-03', order:3, name:'연세소울정신건강의학과의원', phone:'033-762-9960', location:'원주시 무실동 1857-26', hours:'월·화·목·금 10:00~19:00 / 수 10:00~20:00 / 토 09:00~14:00', type:'hospital' },
+    { id:'inst-04', order:4, name:'하늘빛정신건강의학과', phone:'033-743-7975', location:'원주시 능라동길 61, 정한타워 5층 501호', hours:'월·수·목·금 09:30~18:30 / 화 09:30~14:00 / 토 09:00~14:00', type:'hospital' },
+    { id:'inst-05', order:5, name:'좋은마음정신건강의학과의원', phone:'033-733-6300', location:'원주시', hours:'월·수 09:00~19:00 / 화·목 09:00~20:00 / 금 09:00~20:00 / 토 09:00~14:00', type:'hospital' },
+    { id:'inst-06', order:6, name:'강봉선신경정신과의원', phone:'033-744-3884', location:'원주시', hours:'진료시간 전화 확인 필요', type:'hospital' },
+    { id:'inst-07', order:7, name:'이신경정신과의원', phone:'033-744-1142', location:'원주시', hours:'평일 09:00~18:00 / 토 09:00~13:00', type:'hospital' },
+    { id:'inst-08', order:8, name:'홍성국신경정신과의원', phone:'033-743-5356', location:'원주시', hours:'진료시간 전화 확인 필요', type:'hospital' },
+    { id:'inst-09', order:9, name:'새마음병원', phone:'033-731-3111', location:'원주시 문막읍 귀문로 1217', hours:'진료시간 전화 확인 필요', type:'hospital' },
+    { id:'inst-10', order:10, name:'내안에병원', phone:'033-733-1199', location:'원주시', hours:'24시간 운영 정보 확인됨', type:'hospital' },
+    { id:'inst-11', order:11, name:'연세대학교 원주세브란스기독병원', phone:'033-741-0114*', location:'원주시 일산로 20', hours:'평일 08:30~17:30', type:'hospital' },
+    { id:'inst-12', order:12, name:'강원근로자건강센터', phone:'033-745-7289', location:'원주시 호저로 47(강원도경제진흥원 604호)', hours:'평일 09:00~18:00', type:'agency' }
+  ];
+
+  var CENTER = {
+    name:'원주시정신건강복지센터',
+    locLine1:'원주시 원일로 139, 시민문화센터 4층 정신건강복지센터',
+    locLine2:'※ 원주시보건소 건물 / 지하주차장 이용 가능',
+    hoursLine1:'평일 09:00~18:00',
+    hoursLine2:'※ 점심시간 12:00~13:00'
+  };
+  var DEFAULT_STAFF = { name:'김유정', main:'033-746-0199(내선 3)', direct:'070-8803-5221(직통)' };
+  var DEFAULT_STAFF_LIST = [
+    { id:'staff-01', order:1, name:'김유정', main:'033-746-0199(내선 3)', direct:'070-8803-5221(직통)' }
+  ];
+  var DEFAULT_INFO_ITEMS = [
+    { id:'info-01', order:1, title:'온라인 검진', body:'원활한 상담을 위해 온라인 마음검진을 안내드립니다.(필수)\n\n「안녕, 내마음 ‘안심(안도)’」\nhttp://wonjumental.resimbase.gethompy.com/\n링크 접속하셔서, 회원가입 후 아래 검진을 진행하여 주시기 바랍니다.\n- 마음건강검진(성인)' }
+  ];
+
+  var state = {
+    institutions: DEFAULT_INSTITUTIONS.slice(),
+    encouragements: DEFAULT_ENCOURAGEMENTS.slice(),
+    staff: DEFAULT_STAFF_LIST.slice(),
+    infoItems: DEFAULT_INFO_ITEMS.slice(),
+    dbReady: false,
+    sb: null,
+    selectedIds: new Set(),
+    editingId: null,
+    confirmDeleteId: null,
+    editingEncId: null,
+    confirmDeleteEncId: null,
+    editingStaffId: null,
+    confirmDeleteStaffId: null,
+    editingInfoId: null,
+    confirmDeleteInfoId: null
+  };
+
+  // ---------- helpers ----------
+  function $(sel){ return document.querySelector(sel); }
+  function el(tag, attrs, children){
+    var n = document.createElement(tag);
+    attrs = attrs || {};
+    Object.keys(attrs).forEach(function(k){
+      if(k === 'class') n.className = attrs[k];
+      else if(k === 'html') n.innerHTML = attrs[k];
+      else if(k.indexOf('on') === 0) n.addEventListener(k.slice(2), attrs[k]);
+      else n.setAttribute(k, attrs[k]);
+    });
+    (children||[]).forEach(function(c){ if(c) n.appendChild(c); });
+    return n;
+  }
+  function text(t){ return document.createTextNode(t); }
+
+  function formatDate(dateStr){
+    var parts = dateStr.split('-').map(Number);
+    var dt = new Date(parts[0], parts[1]-1, parts[2]);
+    var wd = ['일','월','화','수','목','금','토'][dt.getDay()];
+    return (parts[1]) + '/' + parts[2] + '(' + wd + ')';
+  }
+  function formatTime(timeStr){
+    var parts = timeStr.split(':').map(Number);
+    var h = parts[0], m = parts[1];
+    var ampm = h < 12 ? '오전' : '오후';
+    var h12 = h % 12; if(h12 === 0) h12 = 12;
+    var out = ampm + ' ' + h12 + '시';
+    if(m) out += ' ' + m + '분';
+    return out;
+  }
+  function byteLength(str){
+    var bytes = 0;
+    for(var i=0;i<str.length;i++){
+      bytes += str.codePointAt(i) > 0x7F ? 2 : 1;
+    }
+    return bytes;
+  }
+
+  // ---------- shared store (Supabase) ----------
+  function genId(prefix){
+    return prefix + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+
+  function fetchInstitutions(){
+    if(!state.sb) return;
+    state.sb.from('institutions').select('*').order('order').then(function(res){
+      if(res.error || !res.data) return;
+      state.institutions = res.data.map(function(row){
+        return {
+          id: row.id, order: row.order || 0, name: row.name || '', phone: row.phone || '',
+          location: row.location || '', hours: row.hours || '',
+          type: row.type === 'agency' ? 'agency' : 'hospital'
+        };
+      });
+      renderInstSelectLists();
+      renderManageTable();
+      refreshPreview();
+    }).catch(function(){});
+  }
+
+  function fetchEncouragements(){
+    if(!state.sb) return;
+    state.sb.from('encouragements').select('*').order('order').then(function(res){
+      if(res.error || !res.data) return;
+      state.encouragements = res.data.map(function(row){
+        return { id: row.id, order: row.order || 0, label: row.label || '', text: row.text || '' };
+      });
+      renderEncSelect();
+      renderEncTable();
+      refreshPreview();
+    }).catch(function(){});
+  }
+
+  function fetchStaff(){
+    if(!state.sb) return;
+    state.sb.from('staff').select('*').order('order').then(function(res){
+      if(res.error || !res.data) return;
+      state.staff = res.data.map(function(row){
+        return { id: row.id, order: row.order || 0, name: row.name || '', main: row.main || '', direct: row.direct || '' };
+      });
+      renderStaffSelect();
+      renderStaffTable();
+      applyStaffSelection();
+      refreshPreview();
+    }).catch(function(){});
+  }
+
+  function fetchInfoItems(){
+    if(!state.sb) return;
+    state.sb.from('infoItems').select('*').order('order').then(function(res){
+      if(res.error || !res.data) return;
+      state.infoItems = res.data.map(function(row){
+        return { id: row.id, order: row.order || 0, title: row.title || '', body: row.body || '' };
+      });
+      renderInfoList();
+      renderInfoTable();
+      refreshPreview();
+    }).catch(function(){});
+  }
+
+  // ---------- message assembly ----------
+  function buildMessage(){
+    var errorBox = $('#error-box');
+    var errors = [];
+
+    var consultOn = $('#f-consult-toggle').checked;
+    var hospitalOn = $('#f-hospital-toggle').checked;
+    var agencyOn = $('#f-agency-toggle').checked;
+    var infoOn = $('#f-info-toggle').checked;
+    var locationOn = $('#f-location-toggle').checked;
+
+    var name, dateVal, timeVal, type, encText = null;
+    if(consultOn){
+      name = $('#f-name').value.trim();
+      dateVal = $('#f-date').value;
+      timeVal = $('#f-time').value;
+      var typeSel = $('#f-type').value;
+      var typeCustom = $('#f-type-custom').value.trim();
+      type = typeSel === '__custom' ? typeCustom : typeSel;
+      if(!name) errors.push('이름');
+      if(!dateVal) errors.push('날짜');
+      if(!timeVal) errors.push('시간');
+      if(!type) errors.push('상담 유형');
+
+      var encId = $('#f-encourage').value;
+      if(encId){
+        var enc = state.encouragements.find(function(e){ return e.id === encId; });
+        if(enc) encText = enc.text;
+      }
+    }
+
+    var selectedHospitals = hospitalOn ? state.institutions.filter(function(i){ return i.type === 'hospital' && state.selectedIds.has(i.id); }) : [];
+    var selectedAgencies = agencyOn ? state.institutions.filter(function(i){ return i.type === 'agency' && state.selectedIds.has(i.id); }) : [];
+    var selectedInfoItems = infoOn ? state.infoItems.filter(function(i){ return state.selectedIds.has(i.id); }) : [];
+
+    if(errors.length){
+      errorBox.textContent = errors.join(', ') + '을(를) 입력해 주세요.';
+      errorBox.classList.add('show');
+      return null;
+    }
+    if(hospitalOn && !selectedHospitals.length){
+      errorBox.textContent = '안내할 병원을 하나 이상 선택해 주세요.';
+      errorBox.classList.add('show');
+      return null;
+    }
+    if(agencyOn && !selectedAgencies.length){
+      errorBox.textContent = '안내할 기타 기관을 하나 이상 선택해 주세요.';
+      errorBox.classList.add('show');
+      return null;
+    }
+    if(infoOn && !selectedInfoItems.length){
+      errorBox.textContent = '안내할 기타 정보를 하나 이상 선택해 주세요.';
+      errorBox.classList.add('show');
+      return null;
+    }
+    if(!consultOn && !hospitalOn && !agencyOn && !infoOn && !locationOn){
+      errorBox.textContent = '상담 안내 · 병원 정보 · 기타 기관 · 기타 정보 · 위치 중 최소 하나는 선택해 주세요.';
+      errorBox.classList.add('show');
+      return null;
+    }
+    errorBox.classList.remove('show');
+
+    var staffSelVal = $('#f-staff-select').value;
+    var staffName;
+    if(staffSelVal === '__custom'){
+      staffName = $('#f-staff-name-custom').value.trim() || DEFAULT_STAFF.name;
+    } else {
+      var staffRec = state.staff.find(function(s){ return s.id === staffSelVal; });
+      staffName = staffRec ? staffRec.name : DEFAULT_STAFF.name;
+    }
+    var staffMain = $('#f-staff-main').value.trim() || DEFAULT_STAFF.main;
+    var staffDirect = $('#f-staff-direct').value.trim() || DEFAULT_STAFF.direct;
+
+    var consultPresent = consultOn;
+    var hospitalPresent = hospitalOn && selectedHospitals.length > 0;
+    var agencyPresent = agencyOn && selectedAgencies.length > 0;
+    var infoPresent = infoOn && selectedInfoItems.length > 0;
+    var presentCount = (consultPresent?1:0) + (hospitalPresent?1:0) + (agencyPresent?1:0) + (infoPresent?1:0);
+    var useTags = presentCount >= 2;
+
+    var lines = [];
+    if(useTags && consultPresent) lines.push('[상담 안내]');
+    lines.push('안녕하세요. 원주시정신건강복지센터입니다.');
+    if(consultPresent){
+      lines.push(name + '님, ' + formatDate(dateVal) + ' ' + formatTime(timeVal) + ' ' + type + ' 예정입니다.');
+      if(encText) lines.push(encText);
+      lines.push('일정 변경 또는 취소가 필요한 경우 아래 번호로 미리 연락 부탁드립니다.');
+    }
+
+    function pushInstBlock(list){
+      list.forEach(function(inst, idx){
+        if(idx > 0) lines.push('');
+        lines.push((idx+1) + '. ' + inst.name);
+        lines.push('* 전화: ' + inst.phone);
+        lines.push('* 위치: ' + inst.location);
+        lines.push('* 운영시간 ' + inst.hours);
+      });
+    }
+
+    if(hospitalPresent){
+      lines.push('');
+      if(useTags){ lines.push('[병원 정보 안내]'); lines.push(''); }
+      pushInstBlock(selectedHospitals);
+      lines.push('');
+      lines.push('※ 진료시간 및 예약 가능 여부는 의료기관에 전화로 확인 후 방문하시기 바랍니다.');
+    }
+
+    if(agencyPresent){
+      lines.push('');
+      if(useTags){ lines.push('[기타 기관 안내]'); lines.push(''); }
+      pushInstBlock(selectedAgencies);
+    }
+
+    if(infoPresent){
+      lines.push('');
+      if(useTags){ lines.push('[기타 정보 안내]'); lines.push(''); }
+      selectedInfoItems.forEach(function(item, idx){
+        if(idx > 0) lines.push('');
+        lines.push((idx+1) + '. ' + item.title);
+        item.body.split('\n').forEach(function(bodyLine){ lines.push(bodyLine); });
+      });
+    }
+
+    lines.push(''); lines.push('');
+    lines.push(CENTER.name + ' ' + staffName);
+    lines.push('☎ ' + staffMain + ' / ' + staffDirect);
+
+    if(locationOn){
+      lines.push('');
+      lines.push('[위치]');
+      lines.push(CENTER.locLine1);
+      lines.push(CENTER.locLine2);
+      lines.push('[운영시간]');
+      lines.push(CENTER.hoursLine1);
+      lines.push(CENTER.hoursLine2);
+    }
+
+    return lines.join('\n');
+  }
+
+  function refreshPreview(){
+    var msg = buildMessage();
+    var box = $('#msg-box');
+    var copyBtn = $('#copy-btn');
+    if(msg === null){
+      box.textContent = '위에서 안내할 항목을 하나 이상 켜면 여기에 문자 전문이 표시됩니다.';
+      box.classList.add('empty');
+      copyBtn.disabled = true;
+      $('#byte-count').textContent = '0 byte';
+      $('#byte-tag').textContent = 'SMS';
+      $('#byte-tag').className = 'tag sms';
+      return;
+    }
+    box.textContent = msg;
+    box.classList.remove('empty');
+    copyBtn.disabled = false;
+    var b = byteLength(msg);
+    $('#byte-count').textContent = '약 ' + b + ' byte';
+    var tag = $('#byte-tag');
+    if(b <= 90){ tag.textContent = 'SMS'; tag.className = 'tag sms'; }
+    else { tag.textContent = 'LMS'; tag.className = 'tag lms'; }
+  }
+
+  // ---------- institution select lists ----------
+  function renderInstListFor(type, wrapSel){
+    var wrap = $(wrapSel);
+    wrap.innerHTML = '';
+    var items = state.institutions.filter(function(i){ return i.type === type; });
+    items.forEach(function(inst){
+      var checked = state.selectedIds.has(inst.id);
+      var row = el('label', { class:'inst-item' }, [
+        el('input', { type:'checkbox', onchange:function(e){
+          if(e.target.checked) state.selectedIds.add(inst.id);
+          else state.selectedIds.delete(inst.id);
+          refreshPreview();
+        } }),
+        el('span', {}, [
+          el('span', { class:'i-name' }, [ text(inst.name) ]),
+          el('div', { class:'i-meta' }, [ text(inst.phone + ' · ' + inst.hours) ])
+        ])
+      ]);
+      row.querySelector('input').checked = checked;
+      wrap.appendChild(row);
+    });
+    if(!items.length){
+      wrap.appendChild(el('div', { class:'i-meta' }, [ text('등록된 기관이 없습니다. "목록 관리" 탭에서 추가해 주세요.') ]));
+    }
+  }
+  function renderInstSelectLists(){
+    renderInstListFor('hospital', '#hospital-list');
+    renderInstListFor('agency', '#agency-list');
+  }
+
+  // ---------- institution management table ----------
+  function renderManageTable(){
+    var tbody = $('#inst-tbody');
+    tbody.innerHTML = '';
+    state.institutions.forEach(function(inst){
+      var tr = document.createElement('tr');
+      if(state.editingId === inst.id){
+        tr.appendChild(tdInput('name', inst.name));
+        tr.appendChild(tdInput('phone', inst.phone));
+        tr.appendChild(tdInput('location', inst.location));
+        tr.appendChild(tdInput('hours', inst.hours));
+        var typeSel = el('select', {}, []);
+        ['hospital','agency'].forEach(function(t){
+          var o = el('option', { value:t }, [ text(t === 'hospital' ? '의료기관' : '지원기관') ]);
+          if(inst.type === t) o.selected = true;
+          typeSel.appendChild(o);
+        });
+        var td5 = el('td', {}, [ typeSel ]); td5.dataset.field = 'type';
+        tr.appendChild(td5);
+        tr.appendChild(el('td', { class:'actions-cell' }, [
+          el('button', { class:'btn small', onclick:function(){ saveEdit(inst.id, tr); } }, [ text('저장') ]),
+          el('button', { class:'btn small secondary', style:'margin-left:6px;', onclick:function(){ state.editingId = null; renderManageTable(); } }, [ text('취소') ])
+        ]));
+      } else if(state.confirmDeleteId === inst.id){
+        tr.appendChild(el('td', { colspan:'4' }, [ text(inst.name + ' 삭제') ]));
+        tr.appendChild(el('td', {}, []));
+        tr.appendChild(el('td', { class:'actions-cell' }, [
+          el('div', { class:'confirm-del' }, [
+            el('span', {}, [ text('정말 삭제할까요?') ]),
+            el('button', { class:'btn small danger', onclick:function(){ deleteInst(inst.id); } }, [ text('삭제') ]),
+            el('button', { class:'btn small secondary', onclick:function(){ state.confirmDeleteId = null; renderManageTable(); } }, [ text('취소') ])
+          ])
+        ]));
+      } else {
+        tr.appendChild(el('td', {}, [ text(inst.name) ]));
+        tr.appendChild(el('td', {}, [ text(inst.phone) ]));
+        tr.appendChild(el('td', {}, [ text(inst.location) ]));
+        tr.appendChild(el('td', {}, [ text(inst.hours) ]));
+        tr.appendChild(el('td', {}, [ el('span', { class:'chip ' + (inst.type === 'agency' ? 'agency' : 'hospital') }, [ text(inst.type === 'agency' ? '지원기관' : '의료기관') ]) ]));
+        var actionsCell = el('td', { class:'actions-cell' }, []);
+        if(state.dbReady){
+          actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingId = inst.id; renderManageTable(); } }, [ text('✏️') ]));
+          actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteId = inst.id; renderManageTable(); } }, [ text('🗑') ]));
+        }
+        tr.appendChild(actionsCell);
+      }
+      tbody.appendChild(tr);
+    });
+
+    function tdInput(field, val){
+      var input = el('input', { type:'text', value:val });
+      var td = el('td', {}, [ input ]);
+      td.dataset.field = field;
+      return td;
+    }
+  }
+
+  function saveEdit(id, tr){
+    var data = {};
+    Array.prototype.forEach.call(tr.children, function(td){
+      var f = td.dataset.field;
+      if(!f) return;
+      var input = td.querySelector('input, select');
+      if(input) data[f] = input.value.trim();
+    });
+    state.editingId = null;
+    if(!state.sb) { renderManageTable(); return; }
+    state.sb.from('institutions').update(data).eq('id', id).then(fetchInstitutions).catch(function(){});
+  }
+
+  function deleteInst(id){
+    state.confirmDeleteId = null;
+    state.selectedIds.delete(id);
+    if(!state.sb) return;
+    state.sb.from('institutions').delete().eq('id', id).then(fetchInstitutions).catch(function(){});
+  }
+
+  function addInstitution(){
+    var name = $('#add-name').value.trim();
+    var phone = $('#add-phone').value.trim();
+    var location = $('#add-location').value.trim();
+    var hours = $('#add-hours').value.trim();
+    var type = $('#add-type').value;
+    if(!name || !phone || !location || !hours){
+      alert('기관명·연락처·위치·운영시간을 모두 입력해 주세요.');
+      return;
+    }
+    if(!state.sb) return;
+    var maxOrder = state.institutions.reduce(function(m,i){ return Math.max(m, i.order||0); }, 0);
+    state.sb.from('institutions').insert({ id:genId('inst'), name:name, phone:phone, location:location, hours:hours, type:type, order:maxOrder+1 }).then(function(){
+      $('#add-name').value = ''; $('#add-phone').value = ''; $('#add-location').value = ''; $('#add-hours').value = '';
+      fetchInstitutions();
+    }).catch(function(){});
+  }
+
+  // ---------- encouragement select (compose form) ----------
+  function renderEncSelect(){
+    var sel = $('#f-encourage');
+    var prev = sel.value;
+    sel.innerHTML = '';
+    sel.appendChild(el('option', { value:'' }, [ text('없음') ]));
+    state.encouragements.forEach(function(e){
+      sel.appendChild(el('option', { value:e.id }, [ text(e.label) ]));
+    });
+    if(prev && state.encouragements.some(function(e){ return e.id === prev; })) sel.value = prev;
+  }
+
+  // ---------- encouragement management table ----------
+  function renderEncTable(){
+    var tbody = $('#enc-tbody');
+    tbody.innerHTML = '';
+    state.encouragements.forEach(function(enc){
+      var tr = document.createElement('tr');
+      if(state.editingEncId === enc.id){
+        var labelInput = el('input', { type:'text', value:enc.label });
+        var tdLabel = el('td', {}, [ labelInput ]); tdLabel.dataset.field = 'label';
+        var textInput = el('input', { type:'text', value:enc.text });
+        var tdText = el('td', {}, [ textInput ]); tdText.dataset.field = 'text';
+        tr.appendChild(tdLabel);
+        tr.appendChild(tdText);
+        tr.appendChild(el('td', { class:'actions-cell' }, [
+          el('button', { class:'btn small', onclick:function(){ saveEncEdit(enc.id, tr); } }, [ text('저장') ]),
+          el('button', { class:'btn small secondary', style:'margin-left:6px;', onclick:function(){ state.editingEncId = null; renderEncTable(); } }, [ text('취소') ])
+        ]));
+      } else if(state.confirmDeleteEncId === enc.id){
+        tr.appendChild(el('td', { colspan:'2' }, [ text(enc.label + ' 삭제') ]));
+        tr.appendChild(el('td', { class:'actions-cell' }, [
+          el('div', { class:'confirm-del' }, [
+            el('span', {}, [ text('정말 삭제할까요?') ]),
+            el('button', { class:'btn small danger', onclick:function(){ deleteEnc(enc.id); } }, [ text('삭제') ]),
+            el('button', { class:'btn small secondary', onclick:function(){ state.confirmDeleteEncId = null; renderEncTable(); } }, [ text('취소') ])
+          ])
+        ]));
+      } else {
+        tr.appendChild(el('td', {}, [ text(enc.label) ]));
+        tr.appendChild(el('td', {}, [ text(enc.text) ]));
+        var actionsCell = el('td', { class:'actions-cell' }, []);
+        if(state.dbReady){
+          actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingEncId = enc.id; renderEncTable(); } }, [ text('✏️') ]));
+          actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteEncId = enc.id; renderEncTable(); } }, [ text('🗑') ]));
+        }
+        tr.appendChild(actionsCell);
+      }
+      tbody.appendChild(tr);
+    });
+  }
+
+  function saveEncEdit(id, tr){
+    var data = {};
+    Array.prototype.forEach.call(tr.children, function(td){
+      var f = td.dataset.field;
+      if(!f) return;
+      var input = td.querySelector('input');
+      if(input) data[f] = input.value.trim();
+    });
+    state.editingEncId = null;
+    if(!state.sb){ renderEncTable(); return; }
+    state.sb.from('encouragements').update(data).eq('id', id).then(fetchEncouragements).catch(function(){});
+  }
+
+  function deleteEnc(id){
+    state.confirmDeleteEncId = null;
+    if(!state.sb) return;
+    state.sb.from('encouragements').delete().eq('id', id).then(fetchEncouragements).catch(function(){});
+  }
+
+  function addEncouragement(){
+    var label = $('#add-enc-label').value.trim();
+    var textVal = $('#add-enc-text').value.trim();
+    if(!label || !textVal){
+      alert('상황과 멘트를 모두 입력해 주세요.');
+      return;
+    }
+    if(!state.sb) return;
+    var maxOrder = state.encouragements.reduce(function(m,e){ return Math.max(m, e.order||0); }, 0);
+    state.sb.from('encouragements').insert({ id:genId('enc'), label:label, text:textVal, order:maxOrder+1 }).then(function(){
+      $('#add-enc-label').value = ''; $('#add-enc-text').value = '';
+      fetchEncouragements();
+    }).catch(function(){});
+  }
+
+  // ---------- staff select (compose form) ----------
+  function applyStaffSelection(){
+    var val = $('#f-staff-select').value;
+    if(val === '__custom'){
+      $('#f-staff-name-custom-wrap').style.display = '';
+      return;
+    }
+    $('#f-staff-name-custom-wrap').style.display = 'none';
+    var rec = state.staff.find(function(s){ return s.id === val; });
+    if(rec){
+      $('#f-staff-main').value = rec.main;
+      $('#f-staff-direct').value = rec.direct;
+    }
+  }
+  function renderStaffSelect(){
+    var sel = $('#f-staff-select');
+    var prev = sel.value;
+    sel.innerHTML = '';
+    state.staff.forEach(function(s){
+      sel.appendChild(el('option', { value:s.id }, [ text(s.name) ]));
+    });
+    sel.appendChild(el('option', { value:'__custom' }, [ text('직접 입력 (기타)') ]));
+    var stillExists = prev && (prev === '__custom' || state.staff.some(function(s){ return s.id === prev; }));
+    if(stillExists){
+      sel.value = prev;
+    } else if(state.staff.length){
+      sel.value = state.staff[0].id;
+      applyStaffSelection();
+    }
+  }
+
+  // ---------- staff management table ----------
+  function renderStaffTable(){
+    var tbody = $('#staff-tbody');
+    tbody.innerHTML = '';
+    state.staff.forEach(function(s){
+      var tr = document.createElement('tr');
+      if(state.editingStaffId === s.id){
+        tr.appendChild(tdInput('name', s.name));
+        tr.appendChild(tdInput('main', s.main));
+        tr.appendChild(tdInput('direct', s.direct));
+        tr.appendChild(el('td', { class:'actions-cell' }, [
+          el('button', { class:'btn small', onclick:function(){ saveStaffEdit(s.id, tr); } }, [ text('저장') ]),
+          el('button', { class:'btn small secondary', style:'margin-left:6px;', onclick:function(){ state.editingStaffId = null; renderStaffTable(); } }, [ text('취소') ])
+        ]));
+      } else if(state.confirmDeleteStaffId === s.id){
+        tr.appendChild(el('td', { colspan:'3' }, [ text(s.name + ' 삭제') ]));
+        tr.appendChild(el('td', { class:'actions-cell' }, [
+          el('div', { class:'confirm-del' }, [
+            el('span', {}, [ text('정말 삭제할까요?') ]),
+            el('button', { class:'btn small danger', onclick:function(){ deleteStaff(s.id); } }, [ text('삭제') ]),
+            el('button', { class:'btn small secondary', onclick:function(){ state.confirmDeleteStaffId = null; renderStaffTable(); } }, [ text('취소') ])
+          ])
+        ]));
+      } else {
+        tr.appendChild(el('td', {}, [ text(s.name) ]));
+        tr.appendChild(el('td', {}, [ text(s.main) ]));
+        tr.appendChild(el('td', {}, [ text(s.direct) ]));
+        var actionsCell = el('td', { class:'actions-cell' }, []);
+        if(state.dbReady){
+          actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingStaffId = s.id; renderStaffTable(); } }, [ text('✏️') ]));
+          actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteStaffId = s.id; renderStaffTable(); } }, [ text('🗑') ]));
+        }
+        tr.appendChild(actionsCell);
+      }
+      tbody.appendChild(tr);
+    });
+
+    function tdInput(field, val){
+      var input = el('input', { type:'text', value:val });
+      var td = el('td', {}, [ input ]);
+      td.dataset.field = field;
+      return td;
+    }
+  }
+
+  function saveStaffEdit(id, tr){
+    var data = {};
+    Array.prototype.forEach.call(tr.children, function(td){
+      var f = td.dataset.field;
+      if(!f) return;
+      var input = td.querySelector('input');
+      if(input) data[f] = input.value.trim();
+    });
+    state.editingStaffId = null;
+    if(!state.sb){ renderStaffTable(); return; }
+    state.sb.from('staff').update(data).eq('id', id).then(fetchStaff).catch(function(){});
+  }
+
+  function deleteStaff(id){
+    state.confirmDeleteStaffId = null;
+    if(!state.sb) return;
+    state.sb.from('staff').delete().eq('id', id).then(fetchStaff).catch(function(){});
+  }
+
+  function addStaff(){
+    var name = $('#add-staff-name').value.trim();
+    var main = $('#add-staff-main').value.trim();
+    var direct = $('#add-staff-direct').value.trim();
+    if(!name || !main || !direct){
+      alert('이름·대표번호·직통번호를 모두 입력해 주세요.');
+      return;
+    }
+    if(!state.sb) return;
+    var maxOrder = state.staff.reduce(function(m,s){ return Math.max(m, s.order||0); }, 0);
+    state.sb.from('staff').insert({ id:genId('staff'), name:name, main:main, direct:direct, order:maxOrder+1 }).then(function(){
+      $('#add-staff-name').value = ''; $('#add-staff-main').value = ''; $('#add-staff-direct').value = '';
+      fetchStaff();
+    }).catch(function(){});
+  }
+
+  // ---------- info items select list (compose form) ----------
+  function renderInfoList(){
+    var wrap = $('#info-list');
+    wrap.innerHTML = '';
+    state.infoItems.forEach(function(item){
+      var checked = state.selectedIds.has(item.id);
+      var preview = item.body.split('\n')[0];
+      var row = el('label', { class:'inst-item' }, [
+        el('input', { type:'checkbox', onchange:function(e){
+          if(e.target.checked) state.selectedIds.add(item.id);
+          else state.selectedIds.delete(item.id);
+          refreshPreview();
+        } }),
+        el('span', {}, [
+          el('span', { class:'i-name' }, [ text(item.title) ]),
+          el('div', { class:'i-meta' }, [ text(preview) ])
+        ])
+      ]);
+      row.querySelector('input').checked = checked;
+      wrap.appendChild(row);
+    });
+    if(!state.infoItems.length){
+      wrap.appendChild(el('div', { class:'i-meta' }, [ text('등록된 항목이 없습니다. "목록 관리" 탭에서 추가해 주세요.') ]));
+    }
+  }
+
+  // ---------- info items management table ----------
+  function renderInfoTable(){
+    var tbody = $('#info-tbody');
+    tbody.innerHTML = '';
+    state.infoItems.forEach(function(item){
+      var tr = document.createElement('tr');
+      if(state.editingInfoId === item.id){
+        var titleInput = el('input', { type:'text', value:item.title });
+        var tdTitle = el('td', {}, [ titleInput ]); tdTitle.dataset.field = 'title';
+        var bodyInput = el('textarea', { rows:'4' }, [ text(item.body) ]);
+        var tdBody = el('td', {}, [ bodyInput ]); tdBody.dataset.field = 'body';
+        tr.appendChild(tdTitle);
+        tr.appendChild(tdBody);
+        tr.appendChild(el('td', { class:'actions-cell' }, [
+          el('button', { class:'btn small', onclick:function(){ saveInfoEdit(item.id, tr); } }, [ text('저장') ]),
+          el('button', { class:'btn small secondary', style:'margin-left:6px;', onclick:function(){ state.editingInfoId = null; renderInfoTable(); } }, [ text('취소') ])
+        ]));
+      } else if(state.confirmDeleteInfoId === item.id){
+        tr.appendChild(el('td', { colspan:'2' }, [ text(item.title + ' 삭제') ]));
+        tr.appendChild(el('td', { class:'actions-cell' }, [
+          el('div', { class:'confirm-del' }, [
+            el('span', {}, [ text('정말 삭제할까요?') ]),
+            el('button', { class:'btn small danger', onclick:function(){ deleteInfo(item.id); } }, [ text('삭제') ]),
+            el('button', { class:'btn small secondary', onclick:function(){ state.confirmDeleteInfoId = null; renderInfoTable(); } }, [ text('취소') ])
+          ])
+        ]));
+      } else {
+        tr.appendChild(el('td', {}, [ text(item.title) ]));
+        tr.appendChild(el('td', { style:'white-space:pre-wrap;' }, [ text(item.body) ]));
+        var actionsCell = el('td', { class:'actions-cell' }, []);
+        if(state.dbReady){
+          actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingInfoId = item.id; renderInfoTable(); } }, [ text('✏️') ]));
+          actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteInfoId = item.id; renderInfoTable(); } }, [ text('🗑') ]));
+        }
+        tr.appendChild(actionsCell);
+      }
+      tbody.appendChild(tr);
+    });
+  }
+
+  function saveInfoEdit(id, tr){
+    var data = {};
+    Array.prototype.forEach.call(tr.children, function(td){
+      var f = td.dataset.field;
+      if(!f) return;
+      var input = td.querySelector('input, textarea');
+      if(input) data[f] = f === 'body' ? input.value : input.value.trim();
+    });
+    state.editingInfoId = null;
+    if(!state.sb){ renderInfoTable(); return; }
+    state.sb.from('infoItems').update(data).eq('id', id).then(fetchInfoItems).catch(function(){});
+  }
+
+  function deleteInfo(id){
+    state.confirmDeleteInfoId = null;
+    state.selectedIds.delete(id);
+    if(!state.sb) return;
+    state.sb.from('infoItems').delete().eq('id', id).then(fetchInfoItems).catch(function(){});
+  }
+
+  function addInfoItem(){
+    var title = $('#add-info-title').value.trim();
+    var body = $('#add-info-body').value;
+    if(!title || !body.trim()){
+      alert('제목과 내용을 모두 입력해 주세요.');
+      return;
+    }
+    if(!state.sb) return;
+    var maxOrder = state.infoItems.reduce(function(m,i){ return Math.max(m, i.order||0); }, 0);
+    state.sb.from('infoItems').insert({ id:genId('info'), title:title, body:body, order:maxOrder+1 }).then(function(){
+      $('#add-info-title').value = ''; $('#add-info-body').value = '';
+      fetchInfoItems();
+    }).catch(function(){});
+  }
+
+  // ---------- wiring ----------
+  function init(){
+
+    $('#f-consult-toggle').addEventListener('change', function(){
+      $('#consult-fields-wrap').style.display = this.checked ? '' : 'none';
+      refreshPreview();
+    });
+    $('#f-type').addEventListener('change', function(){
+      $('#f-type-custom-wrap').style.display = this.value === '__custom' ? '' : 'none';
+      refreshPreview();
+    });
+    ['#f-name','#f-date','#f-time','#f-type-custom','#f-encourage','#f-staff-name-custom','#f-staff-main','#f-staff-direct'].forEach(function(sel){
+      $(sel).addEventListener('input', refreshPreview);
+      $(sel).addEventListener('change', refreshPreview);
+    });
+    $('#f-staff-select').addEventListener('change', function(){
+      applyStaffSelection();
+      refreshPreview();
+    });
+    $('#f-hospital-toggle').addEventListener('change', function(){
+      $('#hospital-select-wrap').style.display = this.checked ? '' : 'none';
+      refreshPreview();
+    });
+    $('#f-agency-toggle').addEventListener('change', function(){
+      $('#agency-select-wrap').style.display = this.checked ? '' : 'none';
+      refreshPreview();
+    });
+    $('#f-info-toggle').addEventListener('change', function(){
+      $('#info-select-wrap').style.display = this.checked ? '' : 'none';
+      refreshPreview();
+    });
+    $('#f-location-toggle').addEventListener('change', refreshPreview);
+
+    $('#copy-btn').addEventListener('click', function(){
+      var msg = buildMessage();
+      if(msg === null) return;
+      var flag = $('#copied-flag');
+      function flash(){ flag.classList.add('show'); setTimeout(function(){ flag.classList.remove('show'); }, 1600); }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(msg).then(flash).catch(function(){ fallbackCopy(msg, flash); });
+      } else {
+        fallbackCopy(msg, flash);
+      }
+    });
+    function fallbackCopy(msg, done){
+      var ta = document.createElement('textarea');
+      ta.value = msg; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); done(); }catch(e){}
+      document.body.removeChild(ta);
+    }
+
+    // tabs
+    document.querySelectorAll('.tab-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+        document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+        btn.classList.add('active');
+        $('#panel-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    $('#add-inst-btn').addEventListener('click', addInstitution);
+    $('#add-enc-btn').addEventListener('click', addEncouragement);
+    $('#add-staff-btn').addEventListener('click', addStaff);
+    $('#add-info-btn').addEventListener('click', addInfoItem);
+
+    renderInstSelectLists();
+    renderManageTable();
+    renderEncSelect();
+    renderEncTable();
+    renderStaffSelect();
+    renderStaffTable();
+    applyStaffSelection();
+    renderInfoList();
+    renderInfoTable();
+    refreshPreview();
+
+    initSupabase();
+  }
+
+  function initSupabase(){
+    if(!SUPABASE_URL || !SUPABASE_ANON_KEY){
+      $('#manage-fallback-notice').style.display = '';
+      $('#enc-fallback-notice').style.display = '';
+      $('#staff-fallback-notice').style.display = '';
+      $('#info-fallback-notice').style.display = '';
+      return;
+    }
+    if(!window.supabase || !window.supabase.createClient){
+      $('#manage-fallback-notice').style.display = '';
+      $('#enc-fallback-notice').style.display = '';
+      $('#staff-fallback-notice').style.display = '';
+      $('#info-fallback-notice').style.display = '';
+      return;
+    }
+    state.sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    state.dbReady = true;
+    $('#add-inst-btn').disabled = false;
+    $('#add-enc-btn').disabled = false;
+    $('#add-staff-btn').disabled = false;
+    $('#add-info-btn').disabled = false;
+
+    fetchInstitutions();
+    fetchEncouragements();
+    fetchStaff();
+    fetchInfoItems();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>
