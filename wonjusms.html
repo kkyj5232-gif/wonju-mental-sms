@@ -392,6 +392,26 @@
 
   <!-- MANAGE -->
   <section class="panel" id="panel-manage">
+    <div class="card" id="lock-card">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+        <div>
+          <h2 style="margin:0 0 4px;">🔒 목록 편집 잠금</h2>
+          <p class="hint" style="margin:0;">비밀번호를 입력하면 아래 모든 목록(기관·멘트·담당자·기타 정보)을 추가·수정·삭제할 수 있습니다.</p>
+        </div>
+        <div id="unlock-form" style="display:flex; gap:8px; align-items:center;">
+          <input type="password" id="unlock-pw" placeholder="비밀번호" style="max-width:160px;" autocomplete="off">
+          <button class="btn small" id="unlock-btn" type="button">잠금 해제</button>
+        </div>
+        <div id="unlocked-info" style="display:none; gap:10px; align-items:center;">
+          <span style="font-size:12.5px; color:var(--accent-strong); font-weight:700;">🔓 편집 가능</span>
+          <button class="btn small secondary" id="lock-btn" type="button">다시 잠그기</button>
+        </div>
+      </div>
+      <div class="error-box" id="unlock-error"></div>
+    </div>
+
+    <div class="section-divider"></div>
+
     <div class="card">
       <h2>기관 목록</h2>
       <p class="hint">이 목록은 모든 사용자에게 공유됩니다. "구분"에 따라 병원 정보 안내 / 기타 기관 안내 중 어디에서 보일지 정해집니다.</p>
@@ -533,6 +553,11 @@
   var SUPABASE_URL = '';
   var SUPABASE_ANON_KEY = '';
 
+  // 목록 관리(추가·수정·삭제)를 잠그는 비밀번호. 브라우저에 저장되는 간단한 잠금장치이며
+  // 완전한 보안 인증은 아니지만, 아무나 실수로 목록을 바꾸는 것을 막아줍니다.
+  var EDIT_PASSWORD = '74601990198';
+  var UNLOCK_STORAGE_KEY = 'wonjusms_edit_unlocked';
+
   var DEFAULT_ENCOURAGEMENTS = [
     { id:'enc-01', order:1, label:'첫 상담을 앞둔 분', text:'처음이라 낯설고 걱정되실 수 있지만, 편안한 마음으로 오셔도 괜찮습니다. 함께 이야기 나누며 도움을 드리겠습니다.' },
     { id:'enc-02', order:2, label:'상담을 이어가는 분', text:'그동안 꾸준히 함께해 주셔서 감사합니다. 한 걸음씩 나아가고 계신 모습을 응원하고 있습니다.' },
@@ -578,6 +603,7 @@
     staff: DEFAULT_STAFF_LIST.slice(),
     infoItems: DEFAULT_INFO_ITEMS.slice(),
     dbReady: false,
+    unlocked: false,
     sb: null,
     selectedIds: new Set(),
     editingId: null,
@@ -924,7 +950,7 @@
         tr.appendChild(el('td', {}, [ text(inst.hours) ]));
         tr.appendChild(el('td', {}, [ el('span', { class:'chip ' + (inst.type === 'agency' ? 'agency' : 'hospital') }, [ text(inst.type === 'agency' ? '지원기관' : '의료기관') ]) ]));
         var actionsCell = el('td', { class:'actions-cell' }, []);
-        if(state.dbReady){
+        if(state.dbReady && state.unlocked){
           actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingId = inst.id; renderManageTable(); } }, [ text('✏️') ]));
           actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteId = inst.id; renderManageTable(); } }, [ text('🗑') ]));
         }
@@ -1021,7 +1047,7 @@
         tr.appendChild(el('td', {}, [ text(enc.label) ]));
         tr.appendChild(el('td', {}, [ text(enc.text) ]));
         var actionsCell = el('td', { class:'actions-cell' }, []);
-        if(state.dbReady){
+        if(state.dbReady && state.unlocked){
           actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingEncId = enc.id; renderEncTable(); } }, [ text('✏️') ]));
           actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteEncId = enc.id; renderEncTable(); } }, [ text('🗑') ]));
         }
@@ -1124,7 +1150,7 @@
         tr.appendChild(el('td', {}, [ text(s.main) ]));
         tr.appendChild(el('td', {}, [ text(s.direct) ]));
         var actionsCell = el('td', { class:'actions-cell' }, []);
-        if(state.dbReady){
+        if(state.dbReady && state.unlocked){
           actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingStaffId = s.id; renderStaffTable(); } }, [ text('✏️') ]));
           actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteStaffId = s.id; renderStaffTable(); } }, [ text('🗑') ]));
         }
@@ -1232,7 +1258,7 @@
         tr.appendChild(el('td', {}, [ text(item.title) ]));
         tr.appendChild(el('td', { style:'white-space:pre-wrap;' }, [ text(item.body) ]));
         var actionsCell = el('td', { class:'actions-cell' }, []);
-        if(state.dbReady){
+        if(state.dbReady && state.unlocked){
           actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingInfoId = item.id; renderInfoTable(); } }, [ text('✏️') ]));
           actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteInfoId = item.id; renderInfoTable(); } }, [ text('🗑') ]));
         }
@@ -1275,6 +1301,55 @@
       $('#add-info-title').value = ''; $('#add-info-body').value = '';
       fetchInfoItems();
     }).catch(function(){});
+  }
+
+  // ---------- edit lock ----------
+  function checkStoredUnlock(){
+    try{
+      state.unlocked = localStorage.getItem(UNLOCK_STORAGE_KEY) === '1';
+    }catch(e){
+      state.unlocked = false;
+    }
+  }
+  function applyEditLock(){
+    var canEdit = state.dbReady && state.unlocked;
+    $('#add-inst-btn').disabled = !canEdit;
+    $('#add-enc-btn').disabled = !canEdit;
+    $('#add-staff-btn').disabled = !canEdit;
+    $('#add-info-btn').disabled = !canEdit;
+  }
+  function renderLockUI(){
+    $('#unlock-form').style.display = state.unlocked ? 'none' : 'flex';
+    $('#unlocked-info').style.display = state.unlocked ? 'flex' : 'none';
+  }
+  function setUnlocked(val){
+    state.unlocked = val;
+    try{
+      if(val) localStorage.setItem(UNLOCK_STORAGE_KEY, '1');
+      else localStorage.removeItem(UNLOCK_STORAGE_KEY);
+    }catch(e){}
+    renderLockUI();
+    applyEditLock();
+    state.editingId = null; state.confirmDeleteId = null;
+    state.editingEncId = null; state.confirmDeleteEncId = null;
+    state.editingStaffId = null; state.confirmDeleteStaffId = null;
+    state.editingInfoId = null; state.confirmDeleteInfoId = null;
+    renderManageTable();
+    renderEncTable();
+    renderStaffTable();
+    renderInfoTable();
+  }
+  function attemptUnlock(){
+    var input = $('#unlock-pw');
+    var errorBox = $('#unlock-error');
+    if(input.value === EDIT_PASSWORD){
+      errorBox.classList.remove('show');
+      input.value = '';
+      setUnlocked(true);
+    } else {
+      errorBox.textContent = '비밀번호가 올바르지 않습니다.';
+      errorBox.classList.add('show');
+    }
   }
 
   // ---------- wiring ----------
@@ -1344,6 +1419,14 @@
     $('#add-staff-btn').addEventListener('click', addStaff);
     $('#add-info-btn').addEventListener('click', addInfoItem);
 
+    $('#unlock-btn').addEventListener('click', attemptUnlock);
+    $('#unlock-pw').addEventListener('keydown', function(e){
+      if(e.key === 'Enter') attemptUnlock();
+    });
+    $('#lock-btn').addEventListener('click', function(){ setUnlocked(false); });
+    checkStoredUnlock();
+    renderLockUI();
+
     renderInstSelectLists();
     renderManageTable();
     renderEncSelect();
@@ -1375,10 +1458,7 @@
     }
     state.sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     state.dbReady = true;
-    $('#add-inst-btn').disabled = false;
-    $('#add-enc-btn').disabled = false;
-    $('#add-staff-btn').disabled = false;
-    $('#add-info-btn').disabled = false;
+    applyEditLock();
 
     fetchInstitutions();
     fetchEncouragements();
