@@ -202,6 +202,10 @@
   .card-body{ margin-top:14px; }
 
   .inst-list{ margin-top:10px; display:flex; flex-direction:column; gap:6px; max-height:220px; overflow-y:auto; padding-right:2px; }
+  .list-search{
+    width:100%; font:inherit; font-size:13px; padding:8px 10px; border-radius:8px;
+    border:1px solid var(--border); background:var(--surface); color:var(--ink); margin-top:8px;
+  }
   .inst-item{
     display:flex; align-items:flex-start; gap:9px; padding:8px 10px; border:1px solid var(--border);
     border-radius:8px; background:var(--surface); font-size:13px;
@@ -367,6 +371,7 @@
             </span>
           </label>
           <div id="hospital-select-wrap" style="display:none;">
+            <input type="text" id="hospital-search" class="list-search" placeholder="🔍 병원명으로 검색">
             <div class="inst-list" id="hospital-list"></div>
             <button class="btn small secondary" type="button" id="hospital-clear-btn" style="margin-top:8px;">전체 해제</button>
           </div>
@@ -379,6 +384,7 @@
             </span>
           </label>
           <div id="youth-select-wrap" style="display:none;">
+            <input type="text" id="youth-search" class="list-search" placeholder="🔍 병원명·지역으로 검색">
             <div class="inst-list" id="youth-list" style="max-height:320px;"></div>
             <button class="btn small secondary" type="button" id="youth-clear-btn" style="margin-top:8px;">전체 해제</button>
           </div>
@@ -749,6 +755,8 @@
     unlocked: false,
     sb: null,
     selectedIds: new Set(),
+    hospitalSearch: '',
+    youthSearch: '',
     editingId: null,
     confirmDeleteId: null,
     editingYouthId: null,
@@ -1083,10 +1091,14 @@
   }
 
   // ---------- institution select lists ----------
-  function renderInstListFor(type, wrapSel){
+  function renderInstListFor(type, wrapSel, searchTerm){
     var wrap = $(wrapSel);
     wrap.innerHTML = '';
     var items = state.institutions.filter(function(i){ return i.type === type; });
+    if(searchTerm){
+      var q = searchTerm.toLowerCase();
+      items = items.filter(function(i){ return i.name.toLowerCase().indexOf(q) !== -1; });
+    }
     items.forEach(function(inst){
       var checked = state.selectedIds.has(inst.id);
       var row = el('label', { class:'inst-item' }, [
@@ -1104,12 +1116,12 @@
       wrap.appendChild(row);
     });
     if(!items.length){
-      wrap.appendChild(el('div', { class:'i-meta' }, [ text('등록된 기관이 없습니다. "목록 관리" 탭에서 추가해 주세요.') ]));
+      wrap.appendChild(el('div', { class:'i-meta' }, [ text(searchTerm ? '검색 결과가 없습니다.' : '등록된 기관이 없습니다. "목록 관리" 탭에서 추가해 주세요.') ]));
     }
   }
   function renderInstSelectLists(){
-    renderInstListFor('hospital', '#hospital-list');
-    renderInstListFor('agency', '#agency-list');
+    renderInstListFor('hospital', '#hospital-list', state.hospitalSearch);
+    renderInstListFor('agency', '#agency-list', '');
   }
 
   // ---------- institution management table ----------
@@ -1211,8 +1223,16 @@
   function renderYouthList(){
     var wrap = $('#youth-list');
     wrap.innerHTML = '';
+    var items = state.youthInstitutions;
+    var searchTerm = state.youthSearch;
+    if(searchTerm){
+      var q = searchTerm.toLowerCase();
+      items = items.filter(function(i){
+        return i.name.toLowerCase().indexOf(q) !== -1 || i.region.toLowerCase().indexOf(q) !== -1;
+      });
+    }
     var lastRegion = null;
-    state.youthInstitutions.forEach(function(inst){
+    items.forEach(function(inst){
       if(inst.region !== lastRegion){
         wrap.appendChild(el('div', { class:'youth-region-header' }, [ text(inst.region) ]));
         lastRegion = inst.region;
@@ -1236,8 +1256,8 @@
       row.querySelector('input').checked = checked;
       wrap.appendChild(row);
     });
-    if(!state.youthInstitutions.length){
-      wrap.appendChild(el('div', { class:'i-meta' }, [ text('등록된 병원이 없습니다. "목록 관리" 탭에서 추가해 주세요.') ]));
+    if(!items.length){
+      wrap.appendChild(el('div', { class:'i-meta' }, [ text(searchTerm ? '검색 결과가 없습니다.' : '등록된 병원이 없습니다. "목록 관리" 탭에서 추가해 주세요.') ]));
     }
   }
 
@@ -1754,6 +1774,14 @@
       state.youthInstitutions.forEach(function(i){ state.selectedIds.delete(i.id); });
       renderYouthList();
       refreshPreview();
+    });
+    $('#hospital-search').addEventListener('input', function(){
+      state.hospitalSearch = this.value.trim();
+      renderInstListFor('hospital', '#hospital-list', state.hospitalSearch);
+    });
+    $('#youth-search').addEventListener('input', function(){
+      state.youthSearch = this.value.trim();
+      renderYouthList();
     });
 
     $('#copy-btn').addEventListener('click', function(){
