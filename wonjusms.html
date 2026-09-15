@@ -844,10 +844,10 @@
     function pushInstBlock(list){
       list.forEach(function(inst, idx){
         if(idx > 0) lines.push('');
-        lines.push((idx+1) + '. ' + inst.name);
-        lines.push('* 전화: ' + inst.phone);
-        lines.push('* 위치: ' + inst.location);
-        lines.push('* 운영시간 ' + inst.hours);
+        lines.push('• ' + inst.name);
+        lines.push('- 전화: ' + inst.phone);
+        lines.push('- 위치: ' + inst.location);
+        lines.push('- 운영시간: ' + inst.hours);
       });
     }
 
@@ -867,10 +867,9 @@
 
     if(infoPresent){
       lines.push('');
-      if(useTags){ lines.push('[기타 정보 안내]'); lines.push(''); }
       selectedInfoItems.forEach(function(item, idx){
         if(idx > 0) lines.push('');
-        lines.push((idx+1) + '. ' + item.title);
+        lines.push('• ' + item.title);
         item.body.split('\n').forEach(function(bodyLine){ lines.push(bodyLine); });
       });
     }
