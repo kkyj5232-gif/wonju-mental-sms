@@ -27,6 +27,8 @@
     --cat-info-soft:#ece3f5;
     --cat-location:#5c6459;
     --cat-location-soft:#e4e9e2;
+    --cat-youth:#b8556b;
+    --cat-youth-soft:#f5dfe4;
     --shadow: 0 1px 2px rgba(35,41,34,.06), 0 6px 20px -8px rgba(35,41,34,.15);
   }
   @media (prefers-color-scheme: dark){
@@ -50,6 +52,8 @@
       --cat-info-soft:#33284a;
       --cat-location:#a8b3a9;
       --cat-location-soft:#22322b;
+      --cat-youth:#e2a3b3;
+      --cat-youth-soft:#3d2530;
       --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px -8px rgba(0,0,0,.5);
     }
   }
@@ -73,6 +77,8 @@
     --cat-info-soft:#33284a;
     --cat-location:#a8b3a9;
     --cat-location-soft:#22322b;
+    --cat-youth:#e2a3b3;
+    --cat-youth-soft:#3d2530;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px -8px rgba(0,0,0,.5);
   }
 
@@ -126,6 +132,11 @@
     display:flex; align-items:center; gap:8px;
   }
   .card h2 .cat-icon{ font-size:16px; line-height:1; }
+  .card h2 .cat-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:20px; height:20px; border-radius:50%; background:var(--ink); color:var(--surface);
+    font-size:11px; font-weight:800; flex:none;
+  }
   .card .hint{ font-size:12.5px; color:var(--ink-muted); margin:0 0 16px; line-height:1.5; }
   .req-badge{
     font-size:10.5px; font-weight:700; letter-spacing:.03em; color:var(--accent-strong);
@@ -142,6 +153,7 @@
   .card.cat-agency{ border-left-color:var(--gold); }
   .card.cat-info{ border-left-color:var(--cat-info); }
   .card.cat-location{ border-left-color:var(--cat-location); }
+  .card.cat-youth{ border-left-color:var(--cat-youth); }
 
   .cat-badge{
     font-size:10.5px; font-weight:700; letter-spacing:.03em; padding:2px 7px; border-radius:5px;
@@ -151,6 +163,17 @@
   .cat-badge.agency{ background:var(--gold-soft); color:var(--gold); }
   .cat-badge.info{ background:var(--cat-info-soft); color:var(--cat-info); }
   .cat-badge.location{ background:var(--cat-location-soft); color:var(--cat-location); }
+  .cat-badge.youth{ background:var(--cat-youth-soft); color:var(--cat-youth); }
+
+  .youth-region-header{
+    font-size:12px; font-weight:800; color:var(--cat-youth); letter-spacing:.02em;
+    margin:12px 0 6px; padding-top:10px; border-top:1px dashed var(--border);
+  }
+  .youth-region-header:first-child{ border-top:none; padding-top:0; margin-top:0; }
+  .star-chip{
+    display:inline-block; font-size:10px; font-weight:800; color:var(--cat-youth);
+    background:var(--cat-youth-soft); padding:0 5px; border-radius:5px; margin-left:5px; vertical-align:1px;
+  }
 
   .field{ margin-bottom:14px; }
   .field:last-child{ margin-bottom:0; }
@@ -193,6 +216,7 @@
   .btn{
     font:inherit; font-weight:700; font-size:14px; padding:11px 18px; border-radius:9px; border:none;
     cursor:pointer; background:var(--accent); color:#fff; box-shadow:var(--shadow);
+    display:inline-flex; align-items:center; text-decoration:none;
   }
   .btn:hover{ background:var(--accent-strong); }
   .btn:disabled{ opacity:.45; cursor:not-allowed; }
@@ -222,7 +246,7 @@
   .meter .tag{ font-weight:700; padding:2px 8px; border-radius:6px; font-size:11px; letter-spacing:.02em; }
   .tag.sms{ background:var(--accent-soft); color:var(--accent-strong); }
   .tag.lms{ background:var(--gold-soft); color:var(--gold); }
-  .copy-row{ display:flex; gap:8px; margin-top:14px; }
+  .copy-row{ display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; align-items:center; }
   .copied-flag{ font-size:12.5px; color:var(--accent-strong); font-weight:700; align-self:center; opacity:0; transition:opacity .2s; }
   .copied-flag.show{ opacity:1; }
 
@@ -278,17 +302,17 @@
     <div class="grid">
       <div>
         <div class="card cat-consult">
-          <h2><span class="cat-icon">📋</span> 상담 안내 <span class="cat-badge consult">선택</span></h2>
+          <h2><span class="cat-num">1</span><span class="cat-icon">📋</span> 상담 안내 <span class="cat-badge consult">선택</span></h2>
           <p class="hint">상담 예약이 있을 때만 켭니다. 병원/기관 정보만 안내할 때는 꺼두세요.</p>
           <label class="toggle-row">
-            <input type="checkbox" id="f-consult-toggle" checked>
+            <input type="checkbox" id="f-consult-toggle">
             <span>
               <span class="t-label">상담 안내 포함</span>
               <span class="t-sub">이름·날짜·시간·상담 유형을 문자에 넣습니다.</span>
             </span>
           </label>
 
-          <div class="card-body" id="consult-fields-wrap">
+          <div class="card-body" id="consult-fields-wrap" style="display:none;">
             <div class="field">
               <label for="f-name">예약자 이름</label>
               <input type="text" id="f-name" placeholder="예: 김유정" autocomplete="off">
@@ -309,12 +333,20 @@
                 <option value="내소상담">내소상담</option>
                 <option value="전화상담">전화상담</option>
                 <option value="방문상담">방문상담</option>
+                <option value="의사상담">의사상담</option>
                 <option value="__custom">기타 (직접 입력)</option>
               </select>
             </div>
             <div class="field" id="f-type-custom-wrap" style="display:none;">
               <label for="f-type-custom">상담 유형 직접 입력</label>
               <input type="text" id="f-type-custom" placeholder="예: 집단상담">
+            </div>
+            <div class="field" id="f-doctor-checkin-wrap" style="display:none;">
+              <label for="f-doctor-checkin">검진지 작성 방식</label>
+              <select id="f-doctor-checkin">
+                <option value="online">사전 온라인 검진 (2~3일 전 발송)</option>
+                <option value="onsite">당일 현장 작성 (20~30분 전 내소)</option>
+              </select>
             </div>
             <div class="field" style="margin-bottom:0;">
               <label for="f-encourage">상황별 격려 멘트 (선택)</label>
@@ -324,37 +356,52 @@
         </div>
 
         <div class="card cat-hospital">
-          <h2><span class="cat-icon">🏥</span> 병원 정보 안내 <span class="cat-badge hospital">선택</span></h2>
-          <p class="hint">의료기관(병원·의원)을 안내할 때 켭니다. 여러 곳을 함께 안내할 수 있습니다.</p>
+          <h2><span class="cat-num">2</span><span class="cat-icon">🏥</span> 병원 안내 <span class="cat-badge hospital">선택</span></h2>
+          <p class="hint">성인 병원과 아동·청소년 전용 병원을 나눠서 안내할 수 있습니다. 필요한 쪽만 켜세요.</p>
+
           <label class="toggle-row">
             <input type="checkbox" id="f-hospital-toggle">
             <span>
-              <span class="t-label">병원 정보 포함</span>
+              <span class="t-label">성인 병원 정보 포함</span>
               <span class="t-sub">체크하면 아래에서 안내할 병원을 고를 수 있습니다.</span>
             </span>
           </label>
           <div id="hospital-select-wrap" style="display:none;">
             <div class="inst-list" id="hospital-list"></div>
+            <button class="btn small secondary" type="button" id="hospital-clear-btn" style="margin-top:8px;">전체 해제</button>
+          </div>
+
+          <label class="toggle-row" style="margin-top:10px;">
+            <input type="checkbox" id="f-youth-toggle">
+            <span>
+              <span class="t-label">아동·청소년 병원 정보 포함</span>
+              <span class="t-sub">체크하면 지역별로 안내할 병원을 고를 수 있습니다. 의사명·연령대는 목록 관리에서만 보이고 문자에는 들어가지 않습니다.</span>
+            </span>
+          </label>
+          <div id="youth-select-wrap" style="display:none;">
+            <div class="inst-list" id="youth-list" style="max-height:320px;"></div>
+            <button class="btn small secondary" type="button" id="youth-clear-btn" style="margin-top:8px;">전체 해제</button>
           </div>
         </div>
 
         <div class="card cat-agency">
-          <h2><span class="cat-icon">🏢</span> 기타 기관 안내 <span class="cat-badge agency">선택</span></h2>
+          <h2><span class="cat-num">3</span><span class="cat-icon">🏢</span> 기관 안내 <span class="cat-badge agency">선택</span></h2>
           <p class="hint">병원이 아닌 지원기관(근로자건강센터 등)을 안내할 때 켭니다. 병원 정보와 별개로 함께 켤 수 있습니다.</p>
           <label class="toggle-row">
             <input type="checkbox" id="f-agency-toggle">
             <span>
-              <span class="t-label">기타 기관 정보 포함</span>
+              <span class="t-label">기관 정보 포함</span>
               <span class="t-sub">체크하면 아래에서 안내할 기관을 고를 수 있습니다.</span>
             </span>
           </label>
           <div id="agency-select-wrap" style="display:none;">
             <div class="inst-list" id="agency-list"></div>
+            <button class="btn small secondary" type="button" id="agency-clear-btn" style="margin-top:8px;">전체 해제</button>
           </div>
         </div>
 
         <div class="card cat-info">
-          <h2><span class="cat-icon">📢</span> 기타 정보 안내 <span class="cat-badge info">선택</span></h2>
+          <h2><span class="cat-num">4</span><span class="cat-icon">📢</span> 기타 정보 안내 <span class="cat-badge info">선택</span></h2>
           <p class="hint">온라인 검진 안내 같은 공지성 정보를 안내할 때 켭니다. 여러 항목을 함께 안내할 수 있습니다.</p>
           <label class="toggle-row">
             <input type="checkbox" id="f-info-toggle">
@@ -365,6 +412,7 @@
           </label>
           <div id="info-select-wrap" style="display:none;">
             <div class="inst-list" id="info-list"></div>
+            <button class="btn small secondary" type="button" id="info-clear-btn" style="margin-top:8px;">전체 해제</button>
           </div>
         </div>
 
@@ -418,6 +466,7 @@
           </div>
           <div class="copy-row">
             <button class="btn" id="copy-btn" type="button" disabled>문자 전문 복사하기</button>
+            <a class="btn secondary" href="http://www.bigtells.com/main.asp" target="_blank" rel="noopener noreferrer" title="빅텔스 문자 발송 사이트 열기">📨 발송 사이트 열기</a>
             <span class="copied-flag" id="copied-flag">복사됐습니다 ✓</span>
           </div>
         </div>
@@ -483,6 +532,45 @@
           </select>
         </div>
         <div><button class="btn small" id="add-inst-btn" type="button" disabled>+ 추가</button></div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="card">
+      <h2>🧒 아동·청소년 병원 목록</h2>
+      <p class="hint">아동청소년팀 전용 목록입니다. 지역별로 묶여서 문자 안내 화면에 표시됩니다. 의사명·연령대는 여기서만 참고용으로 보이고, 문자 내용에는 들어가지 않습니다.</p>
+      <div id="youth-fallback-notice" class="notice" style="display:none;">
+        공유 목록을 불러올 수 없어 기본 목록만 볼 수 있습니다 (추가·수정 불가).
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="inst-table" id="youth-table">
+          <thead>
+            <tr>
+              <th style="width:16%;">지역(구분)</th>
+              <th style="width:16%;">병원명</th>
+              <th style="width:6%;">★</th>
+              <th style="width:20%;">위치</th>
+              <th style="width:12%;">전화</th>
+              <th style="width:10%;">의사명</th>
+              <th style="width:10%;">연령대</th>
+              <th style="width:10%;"></th>
+            </tr>
+          </thead>
+          <tbody id="youth-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="add-form" id="add-youth-form" style="grid-template-columns:1.1fr 1.1fr .5fr 1.4fr .9fr .8fr .8fr auto;">
+        <div><label>지역(구분)</label><input type="text" id="add-youth-region" placeholder="예: 강릉"></div>
+        <div><label>병원명</label><input type="text" id="add-youth-name" placeholder="예: OO정신건강의학과"></div>
+        <div><label>★</label><input type="checkbox" id="add-youth-star" style="width:18px;height:18px;margin-top:8px;"></div>
+        <div><label>위치</label><input type="text" id="add-youth-location" placeholder="주소 (없으면 비워둠)"></div>
+        <div><label>전화</label><input type="text" id="add-youth-phone" placeholder="033-000-0000"></div>
+        <div><label>의사명</label><input type="text" id="add-youth-doctor" placeholder="Dr.OOO (참고용)"></div>
+        <div><label>연령대</label><input type="text" id="add-youth-age" placeholder="전 연령 (참고용)"></div>
+        <div><button class="btn small" id="add-youth-btn" type="button" disabled>+ 추가</button></div>
       </div>
     </div>
 
@@ -617,6 +705,25 @@
     { id:'inst-12', order:12, name:'강원근로자건강센터', phone:'033-745-7289', location:'원주시 호저로 47(강원도경제진흥원 604호)', hours:'평일 09:00~18:00', type:'agency' }
   ];
 
+  var DEFAULT_YOUTH_INSTITUTIONS = [
+    { id:'youth-01', order:1, region:'서울 및 강원권 주요 병원', name:'국립정신건강센터', star:true, phone:'02-2204-0142', location:'서울 광진구 용마산로 127', doctor:'', ageRange:'' },
+    { id:'youth-02', order:2, region:'서울 및 강원권 주요 병원', name:'국립춘천병원', star:false, phone:'033-260-3303', location:'', doctor:'', ageRange:'전 연령' },
+    { id:'youth-03', order:3, region:'서울 및 강원권 주요 병원', name:'한림대학교춘천성심병원', star:false, phone:'033-240-5174', location:'', doctor:'Dr.이상규', ageRange:'전 연령' },
+    { id:'youth-04', order:4, region:'서울 및 강원권 주요 병원', name:'강원대병원', star:false, phone:'033-258-2000', location:'', doctor:'Dr.황준원', ageRange:'전 연령' },
+    { id:'youth-05', order:5, region:'원주 관내 소아청소년 전문의 병원 (매월 첫 진료일 선착순 예약 접수)', name:'연세소울 정신건강의학과', star:true, phone:'033-762-9960', location:'원주시 능라동길 3, 미래네트웍 501호', doctor:'Dr.박인석', ageRange:'' },
+    { id:'youth-06', order:6, region:'원주 관내 소아청소년 전문의 병원 (매월 첫 진료일 선착순 예약 접수)', name:'하늘빛 정신건강의학과', star:true, phone:'033-743-7975', location:'원주시 능라동길 61, 정한타워 501호', doctor:'Dr.정경희', ageRange:'' },
+    { id:'youth-07', order:7, region:'원주 관내 소아청소년 전문의 병원 (매월 첫 진료일 선착순 예약 접수)', name:'좋은마음정신건강의학과의원(고등학생 이상)', star:true, phone:'033-733-6300', location:'원주시 서원대로 162, 프라임빌딩 501호 (단계동)', doctor:'Dr.권의정', ageRange:'고등학생~' },
+    { id:'youth-08', order:8, region:'여주', name:'삼성신경정신과의원', star:false, phone:'0507-1308-8857', location:'여주시 여흥로109번길 15 동방빌딩 2층', doctor:'', ageRange:'미취학~' },
+    { id:'youth-09', order:9, region:'강릉', name:'강릉율곡병원', star:true, phone:'033-733-6300', location:'강릉시 서원대로 162 5층', doctor:'Dr.임성후', ageRange:'초등학생~' },
+    { id:'youth-10', order:10, region:'강릉', name:'소울정신건강의학과의원', star:true, phone:'033-655-8845', location:'강릉시 경강로 2071 한성빌딩 203호', doctor:'Dr.이영교', ageRange:'5-6세~' },
+    { id:'youth-11', order:11, region:'강릉', name:'햇살정신건강의학과의원', star:true, phone:'033-643-7711', location:'강릉시 경강로 2110 (임당동) 동아빌딩 4층 햇살마음클리닉', doctor:'Dr.오명신', ageRange:'전 연령' },
+    { id:'youth-12', order:12, region:'충주', name:'연세소울정신건강의학과의원', star:true, phone:'043-724-0501', location:'충청북도 충주시 호암수청2로 15 유안빌딩 5층', doctor:'Dr.방현철', ageRange:'전 연령' },
+    { id:'youth-13', order:13, region:'기타', name:'이신경정신과의원', star:false, phone:'033-744-1142', location:'원주시 원일로 114, 2층', doctor:'', ageRange:'' },
+    { id:'youth-14', order:14, region:'기타', name:'함께하는정신건강의학과의원', star:false, phone:'033-261-1239', location:'춘천시 동내면 춘천순환로 58 501호', doctor:'', ageRange:'초등학생~' },
+    { id:'youth-15', order:15, region:'기타', name:'마음숲정신건강의학과의원', star:false, phone:'033-256-0426', location:'춘천시 방송길 98 제이진빌딩 6층', doctor:'Dr.김가경', ageRange:'전 연령' },
+    { id:'youth-16', order:16, region:'기타', name:'좋은마음정신건강의학과의원', star:false, phone:'033-733-6300', location:'원주시 서원대로 162 5층', doctor:'', ageRange:'' }
+  ];
+
   var CENTER = {
     name:'원주시정신건강복지센터',
     locLine1:'원주시 원일로 139, 시민문화센터 4층 정신건강복지센터',
@@ -634,6 +741,7 @@
 
   var state = {
     institutions: DEFAULT_INSTITUTIONS.slice(),
+    youthInstitutions: DEFAULT_YOUTH_INSTITUTIONS.slice(),
     encouragements: DEFAULT_ENCOURAGEMENTS.slice(),
     staff: DEFAULT_STAFF_LIST.slice(),
     infoItems: DEFAULT_INFO_ITEMS.slice(),
@@ -643,6 +751,8 @@
     selectedIds: new Set(),
     editingId: null,
     confirmDeleteId: null,
+    editingYouthId: null,
+    confirmDeleteYouthId: null,
     editingEncId: null,
     confirmDeleteEncId: null,
     editingStaffId: null,
@@ -712,6 +822,23 @@
     }).catch(function(){});
   }
 
+  function fetchYouthInstitutions(){
+    if(!state.sb) return;
+    state.sb.from('youthInstitutions').select('*').order('order').then(function(res){
+      if(res.error || !res.data) return;
+      state.youthInstitutions = res.data.map(function(row){
+        return {
+          id: row.id, order: row.order || 0, region: row.region || '기타', name: row.name || '',
+          star: !!row.star, phone: row.phone || '', location: row.location || '',
+          doctor: row.doctor || '', ageRange: row.ageRange || ''
+        };
+      });
+      renderYouthList();
+      renderYouthManageTable();
+      refreshPreview();
+    }).catch(function(){});
+  }
+
   function fetchEncouragements(){
     if(!state.sb) return;
     state.sb.from('encouragements').select('*').order('order').then(function(res){
@@ -761,6 +888,7 @@
     var hospitalOn = $('#f-hospital-toggle').checked;
     var agencyOn = $('#f-agency-toggle').checked;
     var infoOn = $('#f-info-toggle').checked;
+    var youthOn = $('#f-youth-toggle').checked;
     var locationOn = $('#f-location-toggle').checked;
 
     var name, dateVal, timeVal, type, encText = null;
@@ -786,6 +914,7 @@
     var selectedHospitals = hospitalOn ? state.institutions.filter(function(i){ return i.type === 'hospital' && state.selectedIds.has(i.id); }) : [];
     var selectedAgencies = agencyOn ? state.institutions.filter(function(i){ return i.type === 'agency' && state.selectedIds.has(i.id); }) : [];
     var selectedInfoItems = infoOn ? state.infoItems.filter(function(i){ return state.selectedIds.has(i.id); }) : [];
+    var selectedYouth = youthOn ? state.youthInstitutions.filter(function(i){ return state.selectedIds.has(i.id); }) : [];
 
     if(errors.length){
       errorBox.textContent = errors.join(', ') + '을(를) 입력해 주세요.';
@@ -807,8 +936,13 @@
       errorBox.classList.add('show');
       return null;
     }
-    if(!consultOn && !hospitalOn && !agencyOn && !infoOn && !locationOn){
-      errorBox.textContent = '상담 안내 · 병원 정보 · 기타 기관 · 기타 정보 · 위치 중 최소 하나는 선택해 주세요.';
+    if(youthOn && !selectedYouth.length){
+      errorBox.textContent = '안내할 아동·청소년 병원을 하나 이상 선택해 주세요.';
+      errorBox.classList.add('show');
+      return null;
+    }
+    if(!consultOn && !hospitalOn && !agencyOn && !infoOn && !youthOn && !locationOn){
+      errorBox.textContent = '상담 안내 · 병원 정보 · 기타 기관 · 기타 정보 · 아동청소년 병원 · 위치 중 최소 하나는 선택해 주세요.';
       errorBox.classList.add('show');
       return null;
     }
@@ -836,9 +970,23 @@
     if(useTags && consultPresent) lines.push('[상담 안내]');
     lines.push('안녕하세요. 원주시정신건강복지센터입니다.');
     if(consultPresent){
-      lines.push(name + '님, ' + formatDate(dateVal) + ' ' + formatTime(timeVal) + ' ' + type + ' 예정입니다.');
-      if(encText) lines.push(encText);
-      lines.push('일정 변경 또는 취소가 필요한 경우 아래 번호로 미리 연락 부탁드립니다.');
+      if(type === '의사상담'){
+        var checkinMode = $('#f-doctor-checkin').value;
+        lines.push(name + '님, ' + formatDate(dateVal) + ' ' + formatTime(timeVal) + ' 의사상담이 예약되어 있어 안내드립니다.');
+        lines.push('');
+        if(checkinMode === 'onsite'){
+          lines.push('▶ 상담 10분 전까지 방문하시어 검진지 작성 부탁드립니다.');
+        } else {
+          lines.push('▶ ' + formatTime(timeVal) + '까지 내소 부탁드립니다.');
+          lines.push('▶ 상담 2~3일 전 온라인 검진지를 발송해드릴 예정입니다.');
+        }
+        lines.push('');
+        lines.push('부득이하게 일정 변경 또는 상담 취소를 원하실 경우, 다른 분의 예약을 도와드릴 수 있도록 미리 회신 부탁드립니다. 감사합니다.');
+      } else {
+        lines.push(name + '님, ' + formatDate(dateVal) + ' ' + formatTime(timeVal) + ' ' + type + ' 예정입니다.');
+        if(encText) lines.push(encText);
+        lines.push('일정 변경 또는 취소가 필요한 경우 아래 번호로 미리 연락 부탁드립니다.');
+      }
     }
 
     function pushInstBlock(list){
@@ -871,6 +1019,26 @@
         if(idx > 0) lines.push('');
         lines.push('• ' + item.title);
         item.body.split('\n').forEach(function(bodyLine){ lines.push(bodyLine); });
+      });
+    }
+
+    var youthPresent = youthOn && selectedYouth.length > 0;
+    if(youthPresent){
+      lines.push('');
+      lines.push('진료 가능한 병의원 안내드리겠습니다.');
+      lines.push('병원별 진료 대상과 예약 가능 여부가 다를 수 있으므로 방문 전 반드시 전화로 확인해 주시기 바랍니다.');
+      var lastYouthRegion = null;
+      selectedYouth.forEach(function(inst){
+        if(inst.region !== lastYouthRegion){
+          lines.push('');
+          lines.push('[' + inst.region + ']');
+          lastYouthRegion = inst.region;
+        } else {
+          lines.push('');
+        }
+        lines.push('• ' + inst.name);
+        lines.push('- 전화: ' + inst.phone);
+        if(inst.location) lines.push('- 위치: ' + inst.location);
       });
     }
 
@@ -1036,6 +1204,146 @@
     state.sb.from('institutions').insert({ id:genId('inst'), name:name, phone:phone, location:location, hours:hours, type:type, order:maxOrder+1 }).then(function(){
       $('#add-name').value = ''; $('#add-phone').value = ''; $('#add-location').value = ''; $('#add-hours').value = '';
       fetchInstitutions();
+    }).catch(function(){});
+  }
+
+  // ---------- youth institution select list (grouped by region) ----------
+  function renderYouthList(){
+    var wrap = $('#youth-list');
+    wrap.innerHTML = '';
+    var lastRegion = null;
+    state.youthInstitutions.forEach(function(inst){
+      if(inst.region !== lastRegion){
+        wrap.appendChild(el('div', { class:'youth-region-header' }, [ text(inst.region) ]));
+        lastRegion = inst.region;
+      }
+      var checked = state.selectedIds.has(inst.id);
+      var metaParts = [inst.phone];
+      if(inst.location) metaParts.push(inst.location);
+      if(inst.doctor) metaParts.push(inst.doctor);
+      if(inst.ageRange) metaParts.push(inst.ageRange);
+      var row = el('label', { class:'inst-item' }, [
+        el('input', { type:'checkbox', onchange:function(e){
+          if(e.target.checked) state.selectedIds.add(inst.id);
+          else state.selectedIds.delete(inst.id);
+          refreshPreview();
+        } }),
+        el('span', {}, [
+          el('span', { class:'i-name' }, [ text(inst.name), inst.star ? el('span', { class:'star-chip' }, [ text('★') ]) : null ]),
+          el('div', { class:'i-meta' }, [ text(metaParts.join(' · ')) ])
+        ])
+      ]);
+      row.querySelector('input').checked = checked;
+      wrap.appendChild(row);
+    });
+    if(!state.youthInstitutions.length){
+      wrap.appendChild(el('div', { class:'i-meta' }, [ text('등록된 병원이 없습니다. "목록 관리" 탭에서 추가해 주세요.') ]));
+    }
+  }
+
+  // ---------- youth institution management table ----------
+  function renderYouthManageTable(){
+    var tbody = $('#youth-tbody');
+    tbody.innerHTML = '';
+    state.youthInstitutions.forEach(function(inst){
+      var tr = document.createElement('tr');
+      if(state.editingYouthId === inst.id){
+        tr.appendChild(tdInput('region', inst.region));
+        tr.appendChild(tdInput('name', inst.name));
+        var starInput = el('input', { type:'checkbox' });
+        starInput.checked = !!inst.star;
+        var tdStar = el('td', {}, [ starInput ]); tdStar.dataset.field = 'star'; tdStar.dataset.checkbox = '1';
+        tr.appendChild(tdStar);
+        tr.appendChild(tdInput('location', inst.location));
+        tr.appendChild(tdInput('phone', inst.phone));
+        tr.appendChild(tdInput('doctor', inst.doctor));
+        tr.appendChild(tdInput('ageRange', inst.ageRange));
+        tr.appendChild(el('td', { class:'actions-cell' }, [
+          el('button', { class:'btn small', onclick:function(){ saveYouthEdit(inst.id, tr); } }, [ text('저장') ]),
+          el('button', { class:'btn small secondary', style:'margin-left:6px;', onclick:function(){ state.editingYouthId = null; renderYouthManageTable(); } }, [ text('취소') ])
+        ]));
+      } else if(state.confirmDeleteYouthId === inst.id){
+        tr.appendChild(el('td', { colspan:'6' }, [ text(inst.name + ' 삭제') ]));
+        tr.appendChild(el('td', {}, []));
+        tr.appendChild(el('td', { class:'actions-cell' }, [
+          el('div', { class:'confirm-del' }, [
+            el('span', {}, [ text('정말 삭제할까요?') ]),
+            el('button', { class:'btn small danger', onclick:function(){ deleteYouth(inst.id); } }, [ text('삭제') ]),
+            el('button', { class:'btn small secondary', onclick:function(){ state.confirmDeleteYouthId = null; renderYouthManageTable(); } }, [ text('취소') ])
+          ])
+        ]));
+      } else {
+        tr.appendChild(el('td', {}, [ text(inst.region) ]));
+        tr.appendChild(el('td', {}, [ text(inst.name) ]));
+        tr.appendChild(el('td', {}, [ text(inst.star ? '★' : '') ]));
+        tr.appendChild(el('td', {}, [ text(inst.location) ]));
+        tr.appendChild(el('td', {}, [ text(inst.phone) ]));
+        tr.appendChild(el('td', {}, [ text(inst.doctor) ]));
+        tr.appendChild(el('td', {}, [ text(inst.ageRange) ]));
+        var actionsCell = el('td', { class:'actions-cell' }, []);
+        if(state.dbReady && state.unlocked){
+          actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingYouthId = inst.id; renderYouthManageTable(); } }, [ text('✏️') ]));
+          actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteYouthId = inst.id; renderYouthManageTable(); } }, [ text('🗑') ]));
+        }
+        tr.appendChild(actionsCell);
+      }
+      tbody.appendChild(tr);
+    });
+
+    function tdInput(field, val){
+      var input = el('input', { type:'text', value:val || '' });
+      var td = el('td', {}, [ input ]);
+      td.dataset.field = field;
+      return td;
+    }
+  }
+
+  function saveYouthEdit(id, tr){
+    var data = {};
+    Array.prototype.forEach.call(tr.children, function(td){
+      var f = td.dataset.field;
+      if(!f) return;
+      if(td.dataset.checkbox){
+        var cb = td.querySelector('input');
+        if(cb) data[f] = cb.checked;
+        return;
+      }
+      var input = td.querySelector('input, select');
+      if(input) data[f] = input.value.trim();
+    });
+    state.editingYouthId = null;
+    if(!state.sb){ renderYouthManageTable(); return; }
+    state.sb.from('youthInstitutions').update(data).eq('id', id).then(fetchYouthInstitutions).catch(function(){});
+  }
+
+  function deleteYouth(id){
+    state.confirmDeleteYouthId = null;
+    state.selectedIds.delete(id);
+    if(!state.sb) return;
+    state.sb.from('youthInstitutions').delete().eq('id', id).then(fetchYouthInstitutions).catch(function(){});
+  }
+
+  function addYouthInstitution(){
+    var region = $('#add-youth-region').value.trim();
+    var name = $('#add-youth-name').value.trim();
+    var star = $('#add-youth-star').checked;
+    var location = $('#add-youth-location').value.trim();
+    var phone = $('#add-youth-phone').value.trim();
+    var doctor = $('#add-youth-doctor').value.trim();
+    var ageRange = $('#add-youth-age').value.trim();
+    if(!region || !name || !phone){
+      alert('지역(구분)·병원명·전화는 반드시 입력해 주세요.');
+      return;
+    }
+    if(!state.sb) return;
+    var maxOrder = state.youthInstitutions.reduce(function(m,i){ return Math.max(m, i.order||0); }, 0);
+    state.sb.from('youthInstitutions').insert({
+      id:genId('youth'), region:region, name:name, star:star, location:location, phone:phone,
+      doctor:doctor, ageRange:ageRange, order:maxOrder+1
+    }).then(function(){
+      $('#add-youth-region').value = ''; $('#add-youth-name').value = ''; $('#add-youth-star').checked = false;
+      $('#add-youth-location').value = ''; $('#add-youth-phone').value = ''; $('#add-youth-doctor').value = ''; $('#add-youth-age').value = '';
+      fetchYouthInstitutions();
     }).catch(function(){});
   }
 
@@ -1351,6 +1659,7 @@
     $('#add-enc-btn').disabled = !canEdit;
     $('#add-staff-btn').disabled = !canEdit;
     $('#add-info-btn').disabled = !canEdit;
+    $('#add-youth-btn').disabled = !canEdit;
   }
   function renderLockUI(){
     $('#unlock-form').style.display = state.unlocked ? 'none' : 'flex';
@@ -1365,10 +1674,12 @@
     renderLockUI();
     applyEditLock();
     state.editingId = null; state.confirmDeleteId = null;
+    state.editingYouthId = null; state.confirmDeleteYouthId = null;
     state.editingEncId = null; state.confirmDeleteEncId = null;
     state.editingStaffId = null; state.confirmDeleteStaffId = null;
     state.editingInfoId = null; state.confirmDeleteInfoId = null;
     renderManageTable();
+    renderYouthManageTable();
     renderEncTable();
     renderStaffTable();
     renderInfoTable();
@@ -1395,9 +1706,10 @@
     });
     $('#f-type').addEventListener('change', function(){
       $('#f-type-custom-wrap').style.display = this.value === '__custom' ? '' : 'none';
+      $('#f-doctor-checkin-wrap').style.display = this.value === '의사상담' ? '' : 'none';
       refreshPreview();
     });
-    ['#f-name','#f-date','#f-time','#f-type-custom','#f-encourage','#f-staff-name-custom','#f-staff-main','#f-staff-direct'].forEach(function(sel){
+    ['#f-name','#f-date','#f-time','#f-type-custom','#f-doctor-checkin','#f-encourage','#f-staff-name-custom','#f-staff-main','#f-staff-direct'].forEach(function(sel){
       $(sel).addEventListener('input', refreshPreview);
       $(sel).addEventListener('change', refreshPreview);
     });
@@ -1417,7 +1729,32 @@
       $('#info-select-wrap').style.display = this.checked ? '' : 'none';
       refreshPreview();
     });
+    $('#f-youth-toggle').addEventListener('change', function(){
+      $('#youth-select-wrap').style.display = this.checked ? '' : 'none';
+      refreshPreview();
+    });
     $('#f-location-toggle').addEventListener('change', refreshPreview);
+
+    $('#hospital-clear-btn').addEventListener('click', function(){
+      state.institutions.filter(function(i){ return i.type === 'hospital'; }).forEach(function(i){ state.selectedIds.delete(i.id); });
+      renderInstSelectLists();
+      refreshPreview();
+    });
+    $('#agency-clear-btn').addEventListener('click', function(){
+      state.institutions.filter(function(i){ return i.type === 'agency'; }).forEach(function(i){ state.selectedIds.delete(i.id); });
+      renderInstSelectLists();
+      refreshPreview();
+    });
+    $('#info-clear-btn').addEventListener('click', function(){
+      state.infoItems.forEach(function(i){ state.selectedIds.delete(i.id); });
+      renderInfoList();
+      refreshPreview();
+    });
+    $('#youth-clear-btn').addEventListener('click', function(){
+      state.youthInstitutions.forEach(function(i){ state.selectedIds.delete(i.id); });
+      renderYouthList();
+      refreshPreview();
+    });
 
     $('#copy-btn').addEventListener('click', function(){
       var msg = buildMessage();
@@ -1452,6 +1789,7 @@
     $('#add-enc-btn').addEventListener('click', addEncouragement);
     $('#add-staff-btn').addEventListener('click', addStaff);
     $('#add-info-btn').addEventListener('click', addInfoItem);
+    $('#add-youth-btn').addEventListener('click', addYouthInstitution);
 
     $('#unlock-btn').addEventListener('click', attemptUnlock);
     $('#unlock-pw').addEventListener('keydown', function(e){
@@ -1463,6 +1801,8 @@
 
     renderInstSelectLists();
     renderManageTable();
+    renderYouthList();
+    renderYouthManageTable();
     renderEncSelect();
     renderEncTable();
     renderStaffSelect();
@@ -1481,6 +1821,7 @@
       $('#enc-fallback-notice').style.display = '';
       $('#staff-fallback-notice').style.display = '';
       $('#info-fallback-notice').style.display = '';
+      $('#youth-fallback-notice').style.display = '';
       return;
     }
     if(!window.supabase || !window.supabase.createClient){
@@ -1488,6 +1829,7 @@
       $('#enc-fallback-notice').style.display = '';
       $('#staff-fallback-notice').style.display = '';
       $('#info-fallback-notice').style.display = '';
+      $('#youth-fallback-notice').style.display = '';
       return;
     }
     state.sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1495,6 +1837,7 @@
     applyEditLock();
 
     fetchInstitutions();
+    fetchYouthInstitutions();
     fetchEncouragements();
     fetchStaff();
     fetchInfoItems();
