@@ -489,7 +489,7 @@
           <p class="hint" style="margin:0;">비밀번호를 입력하면 아래 모든 목록(기관·멘트·담당자·기타 정보)을 추가·수정·삭제할 수 있습니다.</p>
         </div>
         <div id="unlock-form" style="display:flex; gap:8px; align-items:center;">
-          <input type="text" id="editor-name-input" placeholder="이름 (이력에 남습니다)" style="max-width:150px;" autocomplete="off">
+          <input type="text" id="editor-name-input" placeholder="이름 (필수, 이력에 남습니다)" style="max-width:150px;" autocomplete="off">
           <input type="password" id="unlock-pw" placeholder="비밀번호" style="max-width:160px;" autocomplete="off">
           <button class="btn small" id="unlock-btn" type="button">잠금 해제</button>
         </div>
@@ -1828,14 +1828,17 @@
   function attemptUnlock(){
     var input = $('#unlock-pw');
     var errorBox = $('#unlock-error');
+    var nameInput = $('#editor-name-input');
+    var nameVal = nameInput ? nameInput.value.trim() : '';
+    if(!nameVal){
+      errorBox.textContent = '이름을 입력해 주세요. 수정 이력에 기록됩니다.';
+      errorBox.classList.add('show');
+      return;
+    }
     if(input.value === EDIT_PASSWORD){
       errorBox.classList.remove('show');
       input.value = '';
-      var nameInput = $('#editor-name-input');
-      var nameVal = nameInput ? nameInput.value.trim() : '';
-      if(nameVal){
-        try{ localStorage.setItem(EDITOR_NAME_STORAGE_KEY, nameVal); }catch(e){}
-      }
+      try{ localStorage.setItem(EDITOR_NAME_STORAGE_KEY, nameVal); }catch(e){}
       setUnlocked(true);
     } else {
       errorBox.textContent = '비밀번호가 올바르지 않습니다.';
@@ -1947,6 +1950,9 @@
 
     $('#unlock-btn').addEventListener('click', attemptUnlock);
     $('#unlock-pw').addEventListener('keydown', function(e){
+      if(e.key === 'Enter') attemptUnlock();
+    });
+    $('#editor-name-input').addEventListener('keydown', function(e){
       if(e.key === 'Enter') attemptUnlock();
     });
     $('#lock-btn').addEventListener('click', function(){ setUnlocked(false); });
