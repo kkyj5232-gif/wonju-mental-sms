@@ -489,11 +489,12 @@
           <p class="hint" style="margin:0;">비밀번호를 입력하면 아래 모든 목록(기관·멘트·담당자·기타 정보)을 추가·수정·삭제할 수 있습니다.</p>
         </div>
         <div id="unlock-form" style="display:flex; gap:8px; align-items:center;">
+          <input type="text" id="editor-name-input" placeholder="이름 (이력에 남습니다)" style="max-width:150px;" autocomplete="off">
           <input type="password" id="unlock-pw" placeholder="비밀번호" style="max-width:160px;" autocomplete="off">
           <button class="btn small" id="unlock-btn" type="button">잠금 해제</button>
         </div>
         <div id="unlocked-info" style="display:none; gap:10px; align-items:center;">
-          <span style="font-size:12.5px; color:var(--accent-strong); font-weight:700;">🔓 편집 가능</span>
+          <span style="font-size:12.5px; color:var(--accent-strong); font-weight:700;">🔓 편집 가능 (<span id="unlocked-editor-name">이름 미상</span>)</span>
           <button class="btn small secondary" id="lock-btn" type="button">다시 잠그기</button>
         </div>
       </div>
@@ -668,6 +669,30 @@
         <div><button class="btn small" id="add-info-btn" type="button" disabled>+ 추가</button></div>
       </div>
     </div>
+
+    <div class="section-divider"></div>
+
+    <div class="card">
+      <h2>🕓 수정 이력</h2>
+      <p class="hint">누가 언제 어떤 목록을 추가·수정·삭제했는지 최근 50건을 보여줍니다. 잠금 해제 시 입력한 이름이 여기 기록됩니다.</p>
+      <div id="log-fallback-notice" class="notice" style="display:none;">
+        공유 목록을 불러올 수 없어 이력을 볼 수 없습니다.
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="inst-table" id="log-table">
+          <thead>
+            <tr>
+              <th style="width:18%;">시간</th>
+              <th style="width:14%;">이름</th>
+              <th style="width:10%;">작업</th>
+              <th style="width:16%;">목록</th>
+              <th style="width:42%;">내용</th>
+            </tr>
+          </thead>
+          <tbody id="log-tbody"></tbody>
+        </table>
+      </div>
+    </div>
   </section>
 </div>
 
@@ -686,6 +711,7 @@
   // 완전한 보안 인증은 아니지만, 아무나 실수로 목록을 바꾸는 것을 막아줍니다.
   var EDIT_PASSWORD = '74601990198';
   var UNLOCK_STORAGE_KEY = 'wonjusms_edit_unlocked';
+  var EDITOR_NAME_STORAGE_KEY = 'wonjusms_editor_name';
 
   var DEFAULT_ENCOURAGEMENTS = [
     { id:'enc-01', order:1, label:'첫 상담을 앞둔 분', text:'처음이라 낯설고 걱정되실 수 있지만, 편안한 마음으로 오셔도 괜찮습니다. 함께 이야기 나누며 도움을 드리겠습니다.' },
@@ -766,7 +792,8 @@
     editingStaffId: null,
     confirmDeleteStaffId: null,
     editingInfoId: null,
-    confirmDeleteInfoId: null
+    confirmDeleteInfoId: null,
+    changeLog: []
   };
 
   // ---------- helpers ----------
@@ -811,6 +838,59 @@
   // ---------- shared store (Supabase) ----------
   function genId(prefix){
     return prefix + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+
+  // ---------- change log ----------
+  function getEditorName(){
+    var input = $('#editor-name-input');
+    var fromInput = input ? input.value.trim() : '';
+    if(fromInput) return fromInput;
+    try{
+      return localStorage.getItem(EDITOR_NAME_STORAGE_KEY) || '이름 미상';
+    }catch(e){
+      return '이름 미상';
+    }
+  }
+  function logChange(action, target, detail){
+    if(!state.sb) return;
+    state.sb.from('changeLog').insert({
+      id: genId('log'), editor: getEditorName(), action: action, target: target, detail: detail || ''
+    }).then(fetchChangeLog).catch(function(){});
+  }
+  function fetchChangeLog(){
+    if(!state.sb) return;
+    state.sb.from('changeLog').select('*').order('created_at', { ascending:false }).limit(50).then(function(res){
+      if(res.error || !res.data) return;
+      state.changeLog = res.data;
+      renderLogTable();
+    }).catch(function(){});
+  }
+  function formatLogTime(iso){
+    try{
+      var d = new Date(iso);
+      var mm = (d.getMonth()+1); var dd = d.getDate();
+      var hh = d.getHours(); var mi = d.getMinutes();
+      return mm + '/' + dd + ' ' + (hh<10?'0'+hh:hh) + ':' + (mi<10?'0'+mi:mi);
+    }catch(e){ return iso; }
+  }
+  function renderLogTable(){
+    var tbody = $('#log-tbody');
+    if(!tbody) return;
+    tbody.innerHTML = '';
+    state.changeLog.forEach(function(row){
+      var tr = document.createElement('tr');
+      tr.appendChild(el('td', {}, [ text(formatLogTime(row.created_at)) ]));
+      tr.appendChild(el('td', {}, [ text(row.editor || '이름 미상') ]));
+      tr.appendChild(el('td', {}, [ text(row.action || '') ]));
+      tr.appendChild(el('td', {}, [ text(row.target || '') ]));
+      tr.appendChild(el('td', {}, [ text(row.detail || '') ]));
+      tbody.appendChild(tr);
+    });
+    if(!state.changeLog.length){
+      var tr = document.createElement('tr');
+      tr.appendChild(el('td', { colspan:'5' }, [ text('아직 기록된 이력이 없습니다.') ]));
+      tbody.appendChild(tr);
+    }
   }
 
   function fetchInstitutions(){
@@ -1191,14 +1271,21 @@
     });
     state.editingId = null;
     if(!state.sb) { renderManageTable(); return; }
-    state.sb.from('institutions').update(data).eq('id', id).then(fetchInstitutions).catch(function(){});
+    state.sb.from('institutions').update(data).eq('id', id).then(function(){
+      logChange('수정', '기관 목록', data.name || id);
+      fetchInstitutions();
+    }).catch(function(){});
   }
 
   function deleteInst(id){
     state.confirmDeleteId = null;
     state.selectedIds.delete(id);
     if(!state.sb) return;
-    state.sb.from('institutions').delete().eq('id', id).then(fetchInstitutions).catch(function(){});
+    var inst = state.institutions.find(function(i){ return i.id === id; });
+    state.sb.from('institutions').delete().eq('id', id).then(function(){
+      logChange('삭제', '기관 목록', inst ? inst.name : id);
+      fetchInstitutions();
+    }).catch(function(){});
   }
 
   function addInstitution(){
@@ -1215,6 +1302,7 @@
     var maxOrder = state.institutions.reduce(function(m,i){ return Math.max(m, i.order||0); }, 0);
     state.sb.from('institutions').insert({ id:genId('inst'), name:name, phone:phone, location:location, hours:hours, type:type, order:maxOrder+1 }).then(function(){
       $('#add-name').value = ''; $('#add-phone').value = ''; $('#add-location').value = ''; $('#add-hours').value = '';
+      logChange('추가', '기관 목록', name);
       fetchInstitutions();
     }).catch(function(){});
   }
@@ -1333,14 +1421,21 @@
     });
     state.editingYouthId = null;
     if(!state.sb){ renderYouthManageTable(); return; }
-    state.sb.from('youthInstitutions').update(data).eq('id', id).then(fetchYouthInstitutions).catch(function(){});
+    state.sb.from('youthInstitutions').update(data).eq('id', id).then(function(){
+      logChange('수정', '아동청소년 병원', data.name || id);
+      fetchYouthInstitutions();
+    }).catch(function(){});
   }
 
   function deleteYouth(id){
     state.confirmDeleteYouthId = null;
     state.selectedIds.delete(id);
     if(!state.sb) return;
-    state.sb.from('youthInstitutions').delete().eq('id', id).then(fetchYouthInstitutions).catch(function(){});
+    var inst = state.youthInstitutions.find(function(i){ return i.id === id; });
+    state.sb.from('youthInstitutions').delete().eq('id', id).then(function(){
+      logChange('삭제', '아동청소년 병원', inst ? inst.name : id);
+      fetchYouthInstitutions();
+    }).catch(function(){});
   }
 
   function addYouthInstitution(){
@@ -1363,6 +1458,7 @@
     }).then(function(){
       $('#add-youth-region').value = ''; $('#add-youth-name').value = ''; $('#add-youth-star').checked = false;
       $('#add-youth-location').value = ''; $('#add-youth-phone').value = ''; $('#add-youth-doctor').value = ''; $('#add-youth-age').value = '';
+      logChange('추가', '아동청소년 병원', name);
       fetchYouthInstitutions();
     }).catch(function(){});
   }
@@ -1429,13 +1525,20 @@
     });
     state.editingEncId = null;
     if(!state.sb){ renderEncTable(); return; }
-    state.sb.from('encouragements').update(data).eq('id', id).then(fetchEncouragements).catch(function(){});
+    state.sb.from('encouragements').update(data).eq('id', id).then(function(){
+      logChange('수정', '격려 멘트', data.label || id);
+      fetchEncouragements();
+    }).catch(function(){});
   }
 
   function deleteEnc(id){
     state.confirmDeleteEncId = null;
     if(!state.sb) return;
-    state.sb.from('encouragements').delete().eq('id', id).then(fetchEncouragements).catch(function(){});
+    var enc = state.encouragements.find(function(e){ return e.id === id; });
+    state.sb.from('encouragements').delete().eq('id', id).then(function(){
+      logChange('삭제', '격려 멘트', enc ? enc.label : id);
+      fetchEncouragements();
+    }).catch(function(){});
   }
 
   function addEncouragement(){
@@ -1449,6 +1552,7 @@
     var maxOrder = state.encouragements.reduce(function(m,e){ return Math.max(m, e.order||0); }, 0);
     state.sb.from('encouragements').insert({ id:genId('enc'), label:label, text:textVal, order:maxOrder+1 }).then(function(){
       $('#add-enc-label').value = ''; $('#add-enc-text').value = '';
+      logChange('추가', '격려 멘트', label);
       fetchEncouragements();
     }).catch(function(){});
   }
@@ -1539,13 +1643,20 @@
     });
     state.editingStaffId = null;
     if(!state.sb){ renderStaffTable(); return; }
-    state.sb.from('staff').update(data).eq('id', id).then(fetchStaff).catch(function(){});
+    state.sb.from('staff').update(data).eq('id', id).then(function(){
+      logChange('수정', '담당자', data.name || id);
+      fetchStaff();
+    }).catch(function(){});
   }
 
   function deleteStaff(id){
     state.confirmDeleteStaffId = null;
     if(!state.sb) return;
-    state.sb.from('staff').delete().eq('id', id).then(fetchStaff).catch(function(){});
+    var s = state.staff.find(function(x){ return x.id === id; });
+    state.sb.from('staff').delete().eq('id', id).then(function(){
+      logChange('삭제', '담당자', s ? s.name : id);
+      fetchStaff();
+    }).catch(function(){});
   }
 
   function addStaff(){
@@ -1560,6 +1671,7 @@
     var maxOrder = state.staff.reduce(function(m,s){ return Math.max(m, s.order||0); }, 0);
     state.sb.from('staff').insert({ id:genId('staff'), name:name, main:main, direct:direct, order:maxOrder+1 }).then(function(){
       $('#add-staff-name').value = ''; $('#add-staff-main').value = ''; $('#add-staff-direct').value = '';
+      logChange('추가', '담당자', name);
       fetchStaff();
     }).catch(function(){});
   }
@@ -1640,14 +1752,21 @@
     });
     state.editingInfoId = null;
     if(!state.sb){ renderInfoTable(); return; }
-    state.sb.from('infoItems').update(data).eq('id', id).then(fetchInfoItems).catch(function(){});
+    state.sb.from('infoItems').update(data).eq('id', id).then(function(){
+      logChange('수정', '기타 정보', data.title || id);
+      fetchInfoItems();
+    }).catch(function(){});
   }
 
   function deleteInfo(id){
     state.confirmDeleteInfoId = null;
     state.selectedIds.delete(id);
     if(!state.sb) return;
-    state.sb.from('infoItems').delete().eq('id', id).then(fetchInfoItems).catch(function(){});
+    var item = state.infoItems.find(function(i){ return i.id === id; });
+    state.sb.from('infoItems').delete().eq('id', id).then(function(){
+      logChange('삭제', '기타 정보', item ? item.title : id);
+      fetchInfoItems();
+    }).catch(function(){});
   }
 
   function addInfoItem(){
@@ -1661,6 +1780,7 @@
     var maxOrder = state.infoItems.reduce(function(m,i){ return Math.max(m, i.order||0); }, 0);
     state.sb.from('infoItems').insert({ id:genId('info'), title:title, body:body, order:maxOrder+1 }).then(function(){
       $('#add-info-title').value = ''; $('#add-info-body').value = '';
+      logChange('추가', '기타 정보', title);
       fetchInfoItems();
     }).catch(function(){});
   }
@@ -1684,6 +1804,7 @@
   function renderLockUI(){
     $('#unlock-form').style.display = state.unlocked ? 'none' : 'flex';
     $('#unlocked-info').style.display = state.unlocked ? 'flex' : 'none';
+    $('#unlocked-editor-name').textContent = getEditorName();
   }
   function setUnlocked(val){
     state.unlocked = val;
@@ -1710,6 +1831,11 @@
     if(input.value === EDIT_PASSWORD){
       errorBox.classList.remove('show');
       input.value = '';
+      var nameInput = $('#editor-name-input');
+      var nameVal = nameInput ? nameInput.value.trim() : '';
+      if(nameVal){
+        try{ localStorage.setItem(EDITOR_NAME_STORAGE_KEY, nameVal); }catch(e){}
+      }
       setUnlocked(true);
     } else {
       errorBox.textContent = '비밀번호가 올바르지 않습니다.';
@@ -1824,6 +1950,10 @@
       if(e.key === 'Enter') attemptUnlock();
     });
     $('#lock-btn').addEventListener('click', function(){ setUnlocked(false); });
+    try{
+      var storedName = localStorage.getItem(EDITOR_NAME_STORAGE_KEY);
+      if(storedName) $('#editor-name-input').value = storedName;
+    }catch(e){}
     checkStoredUnlock();
     renderLockUI();
 
@@ -1838,6 +1968,7 @@
     applyStaffSelection();
     renderInfoList();
     renderInfoTable();
+    renderLogTable();
     refreshPreview();
 
     initSupabase();
@@ -1850,6 +1981,7 @@
       $('#staff-fallback-notice').style.display = '';
       $('#info-fallback-notice').style.display = '';
       $('#youth-fallback-notice').style.display = '';
+      $('#log-fallback-notice').style.display = '';
       return;
     }
     if(!window.supabase || !window.supabase.createClient){
@@ -1858,6 +1990,7 @@
       $('#staff-fallback-notice').style.display = '';
       $('#info-fallback-notice').style.display = '';
       $('#youth-fallback-notice').style.display = '';
+      $('#log-fallback-notice').style.display = '';
       return;
     }
     state.sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1869,6 +2002,7 @@
     fetchEncouragements();
     fetchStaff();
     fetchInfoItems();
+    fetchChangeLog();
   }
 
   document.addEventListener('DOMContentLoaded', init);
