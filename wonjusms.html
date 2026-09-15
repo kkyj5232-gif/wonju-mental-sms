@@ -21,6 +21,12 @@
     --gold-soft:#f2e6ce;
     --danger:#b4413a;
     --danger-soft:#f4dcd9;
+    --cat-hospital:#2f6f9e;
+    --cat-hospital-soft:#dbe8f2;
+    --cat-info:#7c5cad;
+    --cat-info-soft:#ece3f5;
+    --cat-location:#5c6459;
+    --cat-location-soft:#e4e9e2;
     --shadow: 0 1px 2px rgba(35,41,34,.06), 0 6px 20px -8px rgba(35,41,34,.15);
   }
   @media (prefers-color-scheme: dark){
@@ -38,6 +44,12 @@
       --gold-soft:#3a2f1c;
       --danger:#e08277;
       --danger-soft:#3d2624;
+      --cat-hospital:#7fb8dd;
+      --cat-hospital-soft:#1f3648;
+      --cat-info:#c3a6e6;
+      --cat-info-soft:#33284a;
+      --cat-location:#a8b3a9;
+      --cat-location-soft:#22322b;
       --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px -8px rgba(0,0,0,.5);
     }
   }
@@ -55,6 +67,12 @@
     --gold-soft:#3a2f1c;
     --danger:#e08277;
     --danger-soft:#3d2624;
+    --cat-hospital:#7fb8dd;
+    --cat-hospital-soft:#1f3648;
+    --cat-info:#c3a6e6;
+    --cat-info-soft:#33284a;
+    --cat-location:#a8b3a9;
+    --cat-location-soft:#22322b;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 24px -8px rgba(0,0,0,.5);
   }
 
@@ -99,14 +117,15 @@
   @media (max-width:880px){ .grid{ grid-template-columns:1fr; } }
 
   .card{
-    background:var(--surface); border:1px solid var(--border); border-radius:14px;
-    padding:22px 24px; box-shadow:var(--shadow);
+    background:var(--surface); border:1px solid var(--border); border-left:4px solid transparent;
+    border-radius:14px; padding:22px 24px 22px 22px; box-shadow:var(--shadow);
   }
   .card + .card{ margin-top:18px; }
   .card h2{
     font-size:15px; margin:0 0 4px; color:var(--ink); font-weight:700;
     display:flex; align-items:center; gap:8px;
   }
+  .card h2 .cat-icon{ font-size:16px; line-height:1; }
   .card .hint{ font-size:12.5px; color:var(--ink-muted); margin:0 0 16px; line-height:1.5; }
   .req-badge{
     font-size:10.5px; font-weight:700; letter-spacing:.03em; color:var(--accent-strong);
@@ -116,6 +135,22 @@
     font-size:10.5px; font-weight:700; letter-spacing:.03em; color:var(--ink-muted);
     background:var(--surface-alt); padding:2px 7px; border-radius:5px;
   }
+
+  /* category color coding */
+  .card.cat-consult{ border-left-color:var(--accent); }
+  .card.cat-hospital{ border-left-color:var(--cat-hospital); }
+  .card.cat-agency{ border-left-color:var(--gold); }
+  .card.cat-info{ border-left-color:var(--cat-info); }
+  .card.cat-location{ border-left-color:var(--cat-location); }
+
+  .cat-badge{
+    font-size:10.5px; font-weight:700; letter-spacing:.03em; padding:2px 7px; border-radius:5px;
+  }
+  .cat-badge.consult{ background:var(--accent-soft); color:var(--accent-strong); }
+  .cat-badge.hospital{ background:var(--cat-hospital-soft); color:var(--cat-hospital); }
+  .cat-badge.agency{ background:var(--gold-soft); color:var(--gold); }
+  .cat-badge.info{ background:var(--cat-info-soft); color:var(--cat-info); }
+  .cat-badge.location{ background:var(--cat-location-soft); color:var(--cat-location); }
 
   .field{ margin-bottom:14px; }
   .field:last-child{ margin-bottom:0; }
@@ -242,8 +277,8 @@
   <section class="panel active" id="panel-compose">
     <div class="grid">
       <div>
-        <div class="card">
-          <h2>상담 안내 <span class="opt-badge">선택</span></h2>
+        <div class="card cat-consult">
+          <h2><span class="cat-icon">📋</span> 상담 안내 <span class="cat-badge consult">선택</span></h2>
           <p class="hint">상담 예약이 있을 때만 켭니다. 병원/기관 정보만 안내할 때는 꺼두세요.</p>
           <label class="toggle-row">
             <input type="checkbox" id="f-consult-toggle" checked>
@@ -288,8 +323,8 @@
           </div>
         </div>
 
-        <div class="card">
-          <h2>병원 정보 안내 <span class="opt-badge">선택</span></h2>
+        <div class="card cat-hospital">
+          <h2><span class="cat-icon">🏥</span> 병원 정보 안내 <span class="cat-badge hospital">선택</span></h2>
           <p class="hint">의료기관(병원·의원)을 안내할 때 켭니다. 여러 곳을 함께 안내할 수 있습니다.</p>
           <label class="toggle-row">
             <input type="checkbox" id="f-hospital-toggle">
@@ -303,8 +338,8 @@
           </div>
         </div>
 
-        <div class="card">
-          <h2>기타 기관 안내 <span class="opt-badge">선택</span></h2>
+        <div class="card cat-agency">
+          <h2><span class="cat-icon">🏢</span> 기타 기관 안내 <span class="cat-badge agency">선택</span></h2>
           <p class="hint">병원이 아닌 지원기관(근로자건강센터 등)을 안내할 때 켭니다. 병원 정보와 별개로 함께 켤 수 있습니다.</p>
           <label class="toggle-row">
             <input type="checkbox" id="f-agency-toggle">
@@ -318,8 +353,8 @@
           </div>
         </div>
 
-        <div class="card">
-          <h2>기타 정보 안내 <span class="opt-badge">선택</span></h2>
+        <div class="card cat-info">
+          <h2><span class="cat-icon">📢</span> 기타 정보 안내 <span class="cat-badge info">선택</span></h2>
           <p class="hint">온라인 검진 안내 같은 공지성 정보를 안내할 때 켭니다. 여러 항목을 함께 안내할 수 있습니다.</p>
           <label class="toggle-row">
             <input type="checkbox" id="f-info-toggle">
@@ -333,8 +368,8 @@
           </div>
         </div>
 
-        <div class="card">
-          <h2>위치 · 센터 운영시간 <span class="opt-badge">선택</span></h2>
+        <div class="card cat-location">
+          <h2><span class="cat-icon">📍</span> 위치 · 센터 운영시간 <span class="cat-badge location">선택</span></h2>
           <p class="hint">병원/기관 안내와 함께 켜서 센터 위치도 같이 알리거나, 오시는 길만 단독으로 안내할 때 켭니다.</p>
           <label class="toggle-row">
             <input type="checkbox" id="f-location-toggle">
@@ -346,7 +381,7 @@
         </div>
 
         <div class="card">
-          <h2>발신 담당자</h2>
+          <h2><span class="cat-icon">🖊️</span> 발신 담당자</h2>
           <p class="hint">문자 하단 서명에 들어갑니다. 이름을 선택하면 번호가 자동으로 채워지고, 필요하면 직접 고쳐도 됩니다.</p>
           <div class="field">
             <label for="f-staff-select">담당자</label>
@@ -550,8 +585,8 @@
   // 사장님이 알려주신 Supabase Project URL / anon public key를 여기에 채우면
   // 목록 관리(병원·기타 기관·격려 멘트·담당자·기타 정보)가 로그인 없이 누구나 함께 편집하는
   // 공유 데이터베이스로 전환됩니다. 비어 있는 동안은 아래 DEFAULT_* 값만 쓰는 로컬 모드로 동작합니다.
-  var SUPABASE_URL = '';
-  var SUPABASE_ANON_KEY = '';
+  var SUPABASE_URL = 'https://ijqgvvuwfjjtizorifjl.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqcWd2dnV3ZmpqdGl6b3JpZmpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MDY1MTcsImV4cCI6MjEwNDk4MjUxN30.AslPtVKDdwGA_noTAxXr0hVoDUNK0_vBlEPra15ksx8';
 
   // 목록 관리(추가·수정·삭제)를 잠그는 비밀번호. 브라우저에 저장되는 간단한 잠금장치이며
   // 완전한 보안 인증은 아니지만, 아무나 실수로 목록을 바꾸는 것을 막아줍니다.
@@ -818,7 +853,7 @@
 
     if(hospitalPresent){
       lines.push('');
-      if(useTags){ lines.push('[병원 정보 안내]'); lines.push(''); }
+      if(useTags){ lines.push('[병원 정보 안내]'); }
       pushInstBlock(selectedHospitals);
       lines.push('');
       lines.push('※ 진료시간 및 예약 가능 여부는 의료기관에 전화로 확인 후 방문하시기 바랍니다.');
@@ -826,7 +861,7 @@
 
     if(agencyPresent){
       lines.push('');
-      if(useTags){ lines.push('[기타 기관 안내]'); lines.push(''); }
+      if(useTags){ lines.push('[기타 기관 안내]'); }
       pushInstBlock(selectedAgencies);
     }
 
