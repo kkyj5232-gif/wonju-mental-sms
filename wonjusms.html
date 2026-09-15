@@ -453,23 +453,19 @@
 
         <div class="card">
           <h2><span class="cat-icon">🖊️</span> 발신 담당자</h2>
-          <p class="hint">문자 하단 서명에 들어갑니다. 이름을 선택하면 번호가 자동으로 채워지고, 필요하면 직접 고쳐도 됩니다.</p>
+          <p class="hint">이 정보는 본인 컴퓨터(브라우저)에만 저장되고 다른 사람에게 공유되지 않습니다. 한 번 입력해두면 다음부터 자동으로 채워집니다.</p>
           <div class="field">
-            <label for="f-staff-select">담당자</label>
-            <select id="f-staff-select"></select>
-          </div>
-          <div class="field" id="f-staff-name-custom-wrap" style="display:none;">
-            <label for="f-staff-name-custom">담당자 이름 직접 입력</label>
-            <input type="text" id="f-staff-name-custom" placeholder="예: 이담당">
+            <label for="f-staff-name">담당자 이름</label>
+            <input type="text" id="f-staff-name" placeholder="예: 홍길동" autocomplete="off">
           </div>
           <div class="row2">
             <div class="field">
               <label for="f-staff-main">대표번호(내선)</label>
-              <input type="text" id="f-staff-main">
+              <input type="text" id="f-staff-main" placeholder="033-746-0199(내선 0)" autocomplete="off">
             </div>
             <div class="field">
               <label for="f-staff-direct">직통번호</label>
-              <input type="text" id="f-staff-direct">
+              <input type="text" id="f-staff-direct" placeholder="070-0000-0000(직통)" autocomplete="off">
             </div>
           </div>
         </div>
@@ -503,15 +499,14 @@
       <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
         <div>
           <h2 style="margin:0 0 4px;">🔒 목록 편집 잠금</h2>
-          <p class="hint" style="margin:0;">비밀번호를 입력하면 아래 모든 목록(기관·멘트·담당자·기타 정보)을 추가·수정·삭제할 수 있습니다.</p>
+          <p class="hint" style="margin:0;">비밀번호를 입력하면 아래 모든 목록(기관·멘트·기타 정보)을 추가·수정·삭제할 수 있습니다.</p>
         </div>
         <div id="unlock-form" style="display:flex; gap:8px; align-items:center;">
-          <input type="text" id="editor-name-input" placeholder="이름 (필수, 이력에 남습니다)" style="max-width:150px;" autocomplete="off">
           <input type="password" id="unlock-pw" placeholder="비밀번호" style="max-width:160px;" autocomplete="off">
           <button class="btn small" id="unlock-btn" type="button">잠금 해제</button>
         </div>
         <div id="unlocked-info" style="display:none; gap:10px; align-items:center;">
-          <span style="font-size:12.5px; color:var(--accent-strong); font-weight:700;">🔓 편집 가능 (<span id="unlocked-editor-name">이름 미상</span>)</span>
+          <span style="font-size:12.5px; color:var(--accent-strong); font-weight:700;">🔓 편집 가능</span>
           <button class="btn small secondary" id="lock-btn" type="button">다시 잠그기</button>
         </div>
       </div>
@@ -630,37 +625,6 @@
     <div class="section-divider"></div>
 
     <div class="card">
-      <h2>발신 담당자 목록</h2>
-      <p class="hint">문자 만들기 화면에서 이름을 클릭하면 대표번호·직통번호가 자동으로 채워집니다. 이 목록도 모든 사용자에게 공유됩니다.</p>
-      <div id="staff-fallback-notice" class="notice" style="display:none;">
-        공유 목록을 불러올 수 없어 기본 담당자만 볼 수 있습니다 (추가·수정 불가).
-      </div>
-
-      <div style="overflow-x:auto;">
-        <table class="inst-table" id="staff-table">
-          <thead>
-            <tr>
-              <th style="width:26%;">이름</th>
-              <th style="width:30%;">대표번호(내선)</th>
-              <th style="width:30%;">직통번호</th>
-              <th style="width:14%;"></th>
-            </tr>
-          </thead>
-          <tbody id="staff-tbody"></tbody>
-        </table>
-      </div>
-
-      <div class="add-form" id="add-staff-form" style="grid-template-columns:1fr 1.2fr 1.2fr auto;">
-        <div><label>이름</label><input type="text" id="add-staff-name" placeholder="예: 이담당"></div>
-        <div><label>대표번호(내선)</label><input type="text" id="add-staff-main" placeholder="033-746-0199(내선 3)"></div>
-        <div><label>직통번호</label><input type="text" id="add-staff-direct" placeholder="070-0000-0000(직통)"></div>
-        <div><button class="btn small" id="add-staff-btn" type="button" disabled>+ 추가</button></div>
-      </div>
-    </div>
-
-    <div class="section-divider"></div>
-
-    <div class="card">
       <h2>기타 정보 목록</h2>
       <p class="hint">온라인 검진 안내처럼 문구 전체를 그대로 붙여넣는 공지성 항목입니다. 이 목록도 모든 사용자에게 공유됩니다.</p>
       <div id="info-fallback-notice" class="notice" style="display:none;">
@@ -686,30 +650,6 @@
         <div><button class="btn small" id="add-info-btn" type="button" disabled>+ 추가</button></div>
       </div>
     </div>
-
-    <div class="section-divider"></div>
-
-    <div class="card">
-      <h2>🕓 수정 이력</h2>
-      <p class="hint">누가 언제 어떤 목록을 추가·수정·삭제했는지 최근 50건을 보여줍니다. 잠금 해제 시 입력한 이름이 여기 기록됩니다.</p>
-      <div id="log-fallback-notice" class="notice" style="display:none;">
-        공유 목록을 불러올 수 없어 이력을 볼 수 없습니다.
-      </div>
-      <div style="overflow-x:auto;">
-        <table class="inst-table" id="log-table">
-          <thead>
-            <tr>
-              <th style="width:18%;">시간</th>
-              <th style="width:14%;">이름</th>
-              <th style="width:10%;">작업</th>
-              <th style="width:16%;">목록</th>
-              <th style="width:42%;">내용</th>
-            </tr>
-          </thead>
-          <tbody id="log-tbody"></tbody>
-        </table>
-      </div>
-    </div>
   </section>
 </div>
 
@@ -728,7 +668,6 @@
   // 완전한 보안 인증은 아니지만, 아무나 실수로 목록을 바꾸는 것을 막아줍니다.
   var EDIT_PASSWORD = '74601990198';
   var UNLOCK_STORAGE_KEY = 'wonjusms_edit_unlocked';
-  var EDITOR_NAME_STORAGE_KEY = 'wonjusms_editor_name';
 
   var DEFAULT_ENCOURAGEMENTS = [
     { id:'enc-01', order:1, label:'첫 상담을 앞둔 분', text:'처음이라 낯설고 걱정되실 수 있지만, 편안한 마음으로 오셔도 괜찮습니다. 함께 이야기 나누며 도움을 드리겠습니다.' },
@@ -780,10 +719,8 @@
     hoursLine1:'평일 09:00~18:00',
     hoursLine2:'※ 점심시간 12:00~13:00'
   };
-  var DEFAULT_STAFF = { name:'김유정', main:'033-746-0199(내선 3)', direct:'070-8803-5221(직통)' };
-  var DEFAULT_STAFF_LIST = [
-    { id:'staff-01', order:1, name:'김유정', main:'033-746-0199(내선 3)', direct:'070-8803-5221(직통)' }
-  ];
+  var DEFAULT_STAFF = { name:'', main:'033-746-0199(내선 3)', direct:'' };
+  var STAFF_STORAGE_KEY = 'wonjusms_staff_info';
   var DEFAULT_INFO_ITEMS = [
     { id:'info-01', order:1, title:'온라인 검진', body:'원활한 상담을 위해 온라인 마음검진을 안내드립니다.(필수)\n\n「안녕, 내마음 ‘안심(안도)’」\nhttp://wonjumental.resimbase.gethompy.com/\n링크 접속하셔서, 회원가입 후 아래 검진을 진행하여 주시기 바랍니다.\n- 마음건강검진(성인)' }
   ];
@@ -792,7 +729,6 @@
     institutions: DEFAULT_INSTITUTIONS.slice(),
     youthInstitutions: DEFAULT_YOUTH_INSTITUTIONS.slice(),
     encouragements: DEFAULT_ENCOURAGEMENTS.slice(),
-    staff: DEFAULT_STAFF_LIST.slice(),
     infoItems: DEFAULT_INFO_ITEMS.slice(),
     dbReady: false,
     unlocked: false,
@@ -806,11 +742,8 @@
     confirmDeleteYouthId: null,
     editingEncId: null,
     confirmDeleteEncId: null,
-    editingStaffId: null,
-    confirmDeleteStaffId: null,
     editingInfoId: null,
-    confirmDeleteInfoId: null,
-    changeLog: []
+    confirmDeleteInfoId: null
   };
 
   // ---------- helpers ----------
@@ -857,59 +790,6 @@
     return prefix + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
   }
 
-  // ---------- change log ----------
-  function getEditorName(){
-    var input = $('#editor-name-input');
-    var fromInput = input ? input.value.trim() : '';
-    if(fromInput) return fromInput;
-    try{
-      return localStorage.getItem(EDITOR_NAME_STORAGE_KEY) || '이름 미상';
-    }catch(e){
-      return '이름 미상';
-    }
-  }
-  function logChange(action, target, detail){
-    if(!state.sb) return;
-    state.sb.from('changeLog').insert({
-      id: genId('log'), editor: getEditorName(), action: action, target: target, detail: detail || ''
-    }).then(fetchChangeLog).catch(function(){});
-  }
-  function fetchChangeLog(){
-    if(!state.sb) return;
-    state.sb.from('changeLog').select('*').order('created_at', { ascending:false }).limit(50).then(function(res){
-      if(res.error || !res.data) return;
-      state.changeLog = res.data;
-      renderLogTable();
-    }).catch(function(){});
-  }
-  function formatLogTime(iso){
-    try{
-      var d = new Date(iso);
-      var mm = (d.getMonth()+1); var dd = d.getDate();
-      var hh = d.getHours(); var mi = d.getMinutes();
-      return mm + '/' + dd + ' ' + (hh<10?'0'+hh:hh) + ':' + (mi<10?'0'+mi:mi);
-    }catch(e){ return iso; }
-  }
-  function renderLogTable(){
-    var tbody = $('#log-tbody');
-    if(!tbody) return;
-    tbody.innerHTML = '';
-    state.changeLog.forEach(function(row){
-      var tr = document.createElement('tr');
-      tr.appendChild(el('td', {}, [ text(formatLogTime(row.created_at)) ]));
-      tr.appendChild(el('td', {}, [ text(row.editor || '이름 미상') ]));
-      tr.appendChild(el('td', {}, [ text(row.action || '') ]));
-      tr.appendChild(el('td', {}, [ text(row.target || '') ]));
-      tr.appendChild(el('td', {}, [ text(row.detail || '') ]));
-      tbody.appendChild(tr);
-    });
-    if(!state.changeLog.length){
-      var tr = document.createElement('tr');
-      tr.appendChild(el('td', { colspan:'5' }, [ text('아직 기록된 이력이 없습니다.') ]));
-      tbody.appendChild(tr);
-    }
-  }
-
   function fetchInstitutions(){
     if(!state.sb) return;
     state.sb.from('institutions').select('*').order('order').then(function(res){
@@ -953,20 +833,6 @@
       });
       renderEncSelect();
       renderEncTable();
-      refreshPreview();
-    }).catch(function(){});
-  }
-
-  function fetchStaff(){
-    if(!state.sb) return;
-    state.sb.from('staff').select('*').order('order').then(function(res){
-      if(res.error || !res.data) return;
-      state.staff = res.data.map(function(row){
-        return { id: row.id, order: row.order || 0, name: row.name || '', main: row.main || '', direct: row.direct || '' };
-      });
-      renderStaffSelect();
-      renderStaffTable();
-      applyStaffSelection();
       refreshPreview();
     }).catch(function(){});
   }
@@ -1053,14 +919,7 @@
     }
     errorBox.classList.remove('show');
 
-    var staffSelVal = $('#f-staff-select').value;
-    var staffName;
-    if(staffSelVal === '__custom'){
-      staffName = $('#f-staff-name-custom').value.trim() || DEFAULT_STAFF.name;
-    } else {
-      var staffRec = state.staff.find(function(s){ return s.id === staffSelVal; });
-      staffName = staffRec ? staffRec.name : DEFAULT_STAFF.name;
-    }
+    var staffName = $('#f-staff-name').value.trim() || DEFAULT_STAFF.name;
     var staffMain = $('#f-staff-main').value.trim() || DEFAULT_STAFF.main;
     var staffDirect = $('#f-staff-direct').value.trim() || DEFAULT_STAFF.direct;
 
@@ -1292,7 +1151,6 @@
     state.editingId = null;
     if(!state.sb) { renderManageTable(); return; }
     state.sb.from('institutions').update(data).eq('id', id).then(function(){
-      logChange('수정', '기관 목록', data.name || id);
       fetchInstitutions();
     }).catch(function(){});
   }
@@ -1303,7 +1161,6 @@
     if(!state.sb) return;
     var inst = state.institutions.find(function(i){ return i.id === id; });
     state.sb.from('institutions').delete().eq('id', id).then(function(){
-      logChange('삭제', '기관 목록', inst ? inst.name : id);
       fetchInstitutions();
     }).catch(function(){});
   }
@@ -1322,7 +1179,6 @@
     var maxOrder = state.institutions.reduce(function(m,i){ return Math.max(m, i.order||0); }, 0);
     state.sb.from('institutions').insert({ id:genId('inst'), name:name, phone:phone, location:location, hours:hours, type:type, order:maxOrder+1 }).then(function(){
       $('#add-name').value = ''; $('#add-phone').value = ''; $('#add-location').value = ''; $('#add-hours').value = '';
-      logChange('추가', '기관 목록', name);
       fetchInstitutions();
     }).catch(function(){});
   }
@@ -1442,7 +1298,6 @@
     state.editingYouthId = null;
     if(!state.sb){ renderYouthManageTable(); return; }
     state.sb.from('youthInstitutions').update(data).eq('id', id).then(function(){
-      logChange('수정', '아동청소년 병원', data.name || id);
       fetchYouthInstitutions();
     }).catch(function(){});
   }
@@ -1453,7 +1308,6 @@
     if(!state.sb) return;
     var inst = state.youthInstitutions.find(function(i){ return i.id === id; });
     state.sb.from('youthInstitutions').delete().eq('id', id).then(function(){
-      logChange('삭제', '아동청소년 병원', inst ? inst.name : id);
       fetchYouthInstitutions();
     }).catch(function(){});
   }
@@ -1478,7 +1332,6 @@
     }).then(function(){
       $('#add-youth-region').value = ''; $('#add-youth-name').value = ''; $('#add-youth-star').checked = false;
       $('#add-youth-location').value = ''; $('#add-youth-phone').value = ''; $('#add-youth-doctor').value = ''; $('#add-youth-age').value = '';
-      logChange('추가', '아동청소년 병원', name);
       fetchYouthInstitutions();
     }).catch(function(){});
   }
@@ -1546,7 +1399,6 @@
     state.editingEncId = null;
     if(!state.sb){ renderEncTable(); return; }
     state.sb.from('encouragements').update(data).eq('id', id).then(function(){
-      logChange('수정', '격려 멘트', data.label || id);
       fetchEncouragements();
     }).catch(function(){});
   }
@@ -1556,7 +1408,6 @@
     if(!state.sb) return;
     var enc = state.encouragements.find(function(e){ return e.id === id; });
     state.sb.from('encouragements').delete().eq('id', id).then(function(){
-      logChange('삭제', '격려 멘트', enc ? enc.label : id);
       fetchEncouragements();
     }).catch(function(){});
   }
@@ -1572,128 +1423,26 @@
     var maxOrder = state.encouragements.reduce(function(m,e){ return Math.max(m, e.order||0); }, 0);
     state.sb.from('encouragements').insert({ id:genId('enc'), label:label, text:textVal, order:maxOrder+1 }).then(function(){
       $('#add-enc-label').value = ''; $('#add-enc-text').value = '';
-      logChange('추가', '격려 멘트', label);
       fetchEncouragements();
     }).catch(function(){});
   }
 
-  // ---------- staff select (compose form) ----------
-  function applyStaffSelection(){
-    var val = $('#f-staff-select').value;
-    if(val === '__custom'){
-      $('#f-staff-name-custom-wrap').style.display = '';
-      return;
-    }
-    $('#f-staff-name-custom-wrap').style.display = 'none';
-    var rec = state.staff.find(function(s){ return s.id === val; });
-    if(rec){
-      $('#f-staff-main').value = rec.main;
-      $('#f-staff-direct').value = rec.direct;
-    }
+  // ---------- staff info (local only, per-browser) ----------
+  function loadStaffFromStorage(){
+    var saved = null;
+    try{ saved = JSON.parse(localStorage.getItem(STAFF_STORAGE_KEY) || 'null'); }catch(e){}
+    $('#f-staff-name').value = (saved && saved.name) || DEFAULT_STAFF.name;
+    $('#f-staff-main').value = (saved && saved.main) || DEFAULT_STAFF.main;
+    $('#f-staff-direct').value = (saved && saved.direct) || DEFAULT_STAFF.direct;
   }
-  function renderStaffSelect(){
-    var sel = $('#f-staff-select');
-    var prev = sel.value;
-    sel.innerHTML = '';
-    state.staff.forEach(function(s){
-      sel.appendChild(el('option', { value:s.id }, [ text(s.name) ]));
-    });
-    sel.appendChild(el('option', { value:'__custom' }, [ text('직접 입력 (기타)') ]));
-    var stillExists = prev && (prev === '__custom' || state.staff.some(function(s){ return s.id === prev; }));
-    if(stillExists){
-      sel.value = prev;
-    } else if(state.staff.length){
-      sel.value = state.staff[0].id;
-      applyStaffSelection();
-    }
-  }
-
-  // ---------- staff management table ----------
-  function renderStaffTable(){
-    var tbody = $('#staff-tbody');
-    tbody.innerHTML = '';
-    state.staff.forEach(function(s){
-      var tr = document.createElement('tr');
-      if(state.editingStaffId === s.id){
-        tr.appendChild(tdInput('name', s.name));
-        tr.appendChild(tdInput('main', s.main));
-        tr.appendChild(tdInput('direct', s.direct));
-        tr.appendChild(el('td', { class:'actions-cell' }, [
-          el('button', { class:'btn small', onclick:function(){ saveStaffEdit(s.id, tr); } }, [ text('저장') ]),
-          el('button', { class:'btn small secondary', style:'margin-left:6px;', onclick:function(){ state.editingStaffId = null; renderStaffTable(); } }, [ text('취소') ])
-        ]));
-      } else if(state.confirmDeleteStaffId === s.id){
-        tr.appendChild(el('td', { colspan:'3' }, [ text(s.name + ' 삭제') ]));
-        tr.appendChild(el('td', { class:'actions-cell' }, [
-          el('div', { class:'confirm-del' }, [
-            el('span', {}, [ text('정말 삭제할까요?') ]),
-            el('button', { class:'btn small danger', onclick:function(){ deleteStaff(s.id); } }, [ text('삭제') ]),
-            el('button', { class:'btn small secondary', onclick:function(){ state.confirmDeleteStaffId = null; renderStaffTable(); } }, [ text('취소') ])
-          ])
-        ]));
-      } else {
-        tr.appendChild(el('td', {}, [ text(s.name) ]));
-        tr.appendChild(el('td', {}, [ text(s.main) ]));
-        tr.appendChild(el('td', {}, [ text(s.direct) ]));
-        var actionsCell = el('td', { class:'actions-cell' }, []);
-        if(state.dbReady && state.unlocked){
-          actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingStaffId = s.id; renderStaffTable(); } }, [ text('✏️') ]));
-          actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteStaffId = s.id; renderStaffTable(); } }, [ text('🗑') ]));
-        }
-        tr.appendChild(actionsCell);
-      }
-      tbody.appendChild(tr);
-    });
-
-    function tdInput(field, val){
-      var input = el('input', { type:'text', value:val });
-      var td = el('td', {}, [ input ]);
-      td.dataset.field = field;
-      return td;
-    }
-  }
-
-  function saveStaffEdit(id, tr){
-    var data = {};
-    Array.prototype.forEach.call(tr.children, function(td){
-      var f = td.dataset.field;
-      if(!f) return;
-      var input = td.querySelector('input');
-      if(input) data[f] = input.value.trim();
-    });
-    state.editingStaffId = null;
-    if(!state.sb){ renderStaffTable(); return; }
-    state.sb.from('staff').update(data).eq('id', id).then(function(){
-      logChange('수정', '담당자', data.name || id);
-      fetchStaff();
-    }).catch(function(){});
-  }
-
-  function deleteStaff(id){
-    state.confirmDeleteStaffId = null;
-    if(!state.sb) return;
-    var s = state.staff.find(function(x){ return x.id === id; });
-    state.sb.from('staff').delete().eq('id', id).then(function(){
-      logChange('삭제', '담당자', s ? s.name : id);
-      fetchStaff();
-    }).catch(function(){});
-  }
-
-  function addStaff(){
-    var name = $('#add-staff-name').value.trim();
-    var main = $('#add-staff-main').value.trim();
-    var direct = $('#add-staff-direct').value.trim();
-    if(!name || !main || !direct){
-      alert('이름·대표번호·직통번호를 모두 입력해 주세요.');
-      return;
-    }
-    if(!state.sb) return;
-    var maxOrder = state.staff.reduce(function(m,s){ return Math.max(m, s.order||0); }, 0);
-    state.sb.from('staff').insert({ id:genId('staff'), name:name, main:main, direct:direct, order:maxOrder+1 }).then(function(){
-      $('#add-staff-name').value = ''; $('#add-staff-main').value = ''; $('#add-staff-direct').value = '';
-      logChange('추가', '담당자', name);
-      fetchStaff();
-    }).catch(function(){});
+  function saveStaffToStorage(){
+    try{
+      localStorage.setItem(STAFF_STORAGE_KEY, JSON.stringify({
+        name: $('#f-staff-name').value.trim(),
+        main: $('#f-staff-main').value.trim(),
+        direct: $('#f-staff-direct').value.trim()
+      }));
+    }catch(e){}
   }
 
   // ---------- info items select list (compose form) ----------
@@ -1773,7 +1522,6 @@
     state.editingInfoId = null;
     if(!state.sb){ renderInfoTable(); return; }
     state.sb.from('infoItems').update(data).eq('id', id).then(function(){
-      logChange('수정', '기타 정보', data.title || id);
       fetchInfoItems();
     }).catch(function(){});
   }
@@ -1784,7 +1532,6 @@
     if(!state.sb) return;
     var item = state.infoItems.find(function(i){ return i.id === id; });
     state.sb.from('infoItems').delete().eq('id', id).then(function(){
-      logChange('삭제', '기타 정보', item ? item.title : id);
       fetchInfoItems();
     }).catch(function(){});
   }
@@ -1800,7 +1547,6 @@
     var maxOrder = state.infoItems.reduce(function(m,i){ return Math.max(m, i.order||0); }, 0);
     state.sb.from('infoItems').insert({ id:genId('info'), title:title, body:body, order:maxOrder+1 }).then(function(){
       $('#add-info-title').value = ''; $('#add-info-body').value = '';
-      logChange('추가', '기타 정보', title);
       fetchInfoItems();
     }).catch(function(){});
   }
@@ -1817,14 +1563,12 @@
     var canEdit = state.dbReady && state.unlocked;
     $('#add-inst-btn').disabled = !canEdit;
     $('#add-enc-btn').disabled = !canEdit;
-    $('#add-staff-btn').disabled = !canEdit;
     $('#add-info-btn').disabled = !canEdit;
     $('#add-youth-btn').disabled = !canEdit;
   }
   function renderLockUI(){
     $('#unlock-form').style.display = state.unlocked ? 'none' : 'flex';
     $('#unlocked-info').style.display = state.unlocked ? 'flex' : 'none';
-    $('#unlocked-editor-name').textContent = getEditorName();
   }
   function setUnlocked(val){
     state.unlocked = val;
@@ -1837,28 +1581,18 @@
     state.editingId = null; state.confirmDeleteId = null;
     state.editingYouthId = null; state.confirmDeleteYouthId = null;
     state.editingEncId = null; state.confirmDeleteEncId = null;
-    state.editingStaffId = null; state.confirmDeleteStaffId = null;
     state.editingInfoId = null; state.confirmDeleteInfoId = null;
     renderManageTable();
     renderYouthManageTable();
     renderEncTable();
-    renderStaffTable();
     renderInfoTable();
   }
   function attemptUnlock(){
     var input = $('#unlock-pw');
     var errorBox = $('#unlock-error');
-    var nameInput = $('#editor-name-input');
-    var nameVal = nameInput ? nameInput.value.trim() : '';
-    if(!nameVal){
-      errorBox.textContent = '이름을 입력해 주세요. 수정 이력에 기록됩니다.';
-      errorBox.classList.add('show');
-      return;
-    }
     if(input.value === EDIT_PASSWORD){
       errorBox.classList.remove('show');
       input.value = '';
-      try{ localStorage.setItem(EDITOR_NAME_STORAGE_KEY, nameVal); }catch(e){}
       setUnlocked(true);
     } else {
       errorBox.textContent = '비밀번호가 올바르지 않습니다.';
@@ -1878,13 +1612,9 @@
       $('#f-doctor-checkin-wrap').style.display = this.value === '의사상담' ? '' : 'none';
       refreshPreview();
     });
-    ['#f-name','#f-date','#f-time','#f-type-custom','#f-doctor-tenmin','#f-doctor-online','#f-doctor-onsite','#f-encourage','#f-staff-name-custom','#f-staff-main','#f-staff-direct'].forEach(function(sel){
+    ['#f-name','#f-date','#f-time','#f-type-custom','#f-doctor-tenmin','#f-doctor-online','#f-doctor-onsite','#f-encourage'].forEach(function(sel){
       $(sel).addEventListener('input', refreshPreview);
       $(sel).addEventListener('change', refreshPreview);
-    });
-    $('#f-staff-select').addEventListener('change', function(){
-      applyStaffSelection();
-      refreshPreview();
     });
     $('#f-hospital-toggle').addEventListener('change', function(){
       $('#hospital-select-wrap').style.display = this.checked ? '' : 'none';
@@ -1964,7 +1694,6 @@
 
     $('#add-inst-btn').addEventListener('click', addInstitution);
     $('#add-enc-btn').addEventListener('click', addEncouragement);
-    $('#add-staff-btn').addEventListener('click', addStaff);
     $('#add-info-btn').addEventListener('click', addInfoItem);
     $('#add-youth-btn').addEventListener('click', addYouthInstitution);
 
@@ -1972,16 +1701,14 @@
     $('#unlock-pw').addEventListener('keydown', function(e){
       if(e.key === 'Enter') attemptUnlock();
     });
-    $('#editor-name-input').addEventListener('keydown', function(e){
-      if(e.key === 'Enter') attemptUnlock();
-    });
     $('#lock-btn').addEventListener('click', function(){ setUnlocked(false); });
-    try{
-      var storedName = localStorage.getItem(EDITOR_NAME_STORAGE_KEY);
-      if(storedName) $('#editor-name-input').value = storedName;
-    }catch(e){}
     checkStoredUnlock();
     renderLockUI();
+
+    ['#f-staff-name','#f-staff-main','#f-staff-direct'].forEach(function(sel){
+      $(sel).addEventListener('input', function(){ saveStaffToStorage(); refreshPreview(); });
+    });
+    loadStaffFromStorage();
 
     renderInstSelectLists();
     renderManageTable();
@@ -1989,12 +1716,8 @@
     renderYouthManageTable();
     renderEncSelect();
     renderEncTable();
-    renderStaffSelect();
-    renderStaffTable();
-    applyStaffSelection();
     renderInfoList();
     renderInfoTable();
-    renderLogTable();
     refreshPreview();
 
     initSupabase();
@@ -2004,19 +1727,15 @@
     if(!SUPABASE_URL || !SUPABASE_ANON_KEY){
       $('#manage-fallback-notice').style.display = '';
       $('#enc-fallback-notice').style.display = '';
-      $('#staff-fallback-notice').style.display = '';
       $('#info-fallback-notice').style.display = '';
       $('#youth-fallback-notice').style.display = '';
-      $('#log-fallback-notice').style.display = '';
       return;
     }
     if(!window.supabase || !window.supabase.createClient){
       $('#manage-fallback-notice').style.display = '';
       $('#enc-fallback-notice').style.display = '';
-      $('#staff-fallback-notice').style.display = '';
       $('#info-fallback-notice').style.display = '';
       $('#youth-fallback-notice').style.display = '';
-      $('#log-fallback-notice').style.display = '';
       return;
     }
     state.sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -2026,9 +1745,7 @@
     fetchInstitutions();
     fetchYouthInstitutions();
     fetchEncouragements();
-    fetchStaff();
     fetchInfoItems();
-    fetchChangeLog();
   }
 
   document.addEventListener('DOMContentLoaded', init);
