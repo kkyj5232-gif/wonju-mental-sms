@@ -495,6 +495,16 @@
 
   <!-- MANAGE -->
   <section class="panel" id="panel-manage">
+    <div class="card" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+      <div>
+        <h2 style="margin:0 0 4px;">📥 목록 내보내기</h2>
+        <p class="hint" style="margin:0;">현재 병원·기관·격려멘트·기타정보 목록을 엑셀(.xlsx) 파일로 백업할 수 있습니다.</p>
+      </div>
+      <button class="btn small secondary" id="export-excel-btn" type="button">엑셀로 내보내기</button>
+    </div>
+
+    <div class="section-divider"></div>
+
     <div class="card" id="lock-card">
       <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
         <div>
@@ -567,14 +577,14 @@
         <table class="inst-table" id="youth-table">
           <thead>
             <tr>
-              <th style="width:16%;">지역(구분)</th>
-              <th style="width:16%;">병원명</th>
-              <th style="width:6%;">★</th>
-              <th style="width:20%;">위치</th>
-              <th style="width:12%;">전화</th>
-              <th style="width:10%;">의사명</th>
-              <th style="width:10%;">연령대</th>
-              <th style="width:10%;"></th>
+              <th style="width:14%;">지역(구분)</th>
+              <th style="width:14%;">병원명</th>
+              <th style="width:5%;">★</th>
+              <th style="width:17%;">위치</th>
+              <th style="width:11%;">전화</th>
+              <th style="width:9%;">의사명</th>
+              <th style="width:9%;">연령대</th>
+              <th style="width:21%;"></th>
             </tr>
           </thead>
           <tbody id="youth-tbody"></tbody>
@@ -654,6 +664,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
 (function(){
   'use strict';
@@ -788,6 +799,40 @@
   // ---------- shared store (Supabase) ----------
   function genId(prefix){
     return prefix + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  }
+
+  // ---------- excel export ----------
+  function exportToExcel(){
+    if(!window.XLSX){
+      alert('엑셀 기능을 불러오는 중입니다. 잠시 후 다시 시도해 주세요.');
+      return;
+    }
+    var wb = XLSX.utils.book_new();
+
+    var instRows = state.institutions.map(function(i){
+      return { '기관명':i.name, '연락처':i.phone, '위치':i.location, '운영시간':i.hours, '구분': i.type === 'agency' ? '기관' : '병원' };
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(instRows), '병원_기관목록');
+
+    var youthRows = state.youthInstitutions.map(function(i){
+      return { '지역':i.region, '병원명':i.name, '전문의':i.star ? '★' : '', '위치':i.location, '전화':i.phone, '의사명(참고)':i.doctor, '연령대(참고)':i.ageRange };
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(youthRows), '아동청소년병원');
+
+    var encRows = state.encouragements.map(function(e){
+      return { '상황':e.label, '멘트':e.text };
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(encRows), '격려멘트');
+
+    var infoRows = state.infoItems.map(function(i){
+      return { '제목':i.title, '내용':i.body };
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(infoRows), '기타정보');
+
+    var today = new Date();
+    var y = today.getFullYear(), m = today.getMonth()+1, d = today.getDate();
+    var fname = 'wonjusms_목록_' + y + (m<10?'0'+m:m) + (d<10?'0'+d:d) + '.xlsx';
+    XLSX.writeFile(wb, fname);
   }
 
   function fetchInstitutions(){
@@ -1229,7 +1274,7 @@
   function renderYouthManageTable(){
     var tbody = $('#youth-tbody');
     tbody.innerHTML = '';
-    state.youthInstitutions.forEach(function(inst){
+    state.youthInstitutions.forEach(function(inst, idx){
       var tr = document.createElement('tr');
       if(state.editingYouthId === inst.id){
         tr.appendChild(tdInput('region', inst.region));
@@ -1266,6 +1311,12 @@
         tr.appendChild(el('td', {}, [ text(inst.ageRange) ]));
         var actionsCell = el('td', { class:'actions-cell' }, []);
         if(state.dbReady && state.unlocked){
+          var upBtn = el('button', { class:'btn icon', title:'위로 이동', onclick:function(){ moveYouth(inst.id, -1); } }, [ text('▲') ]);
+          var downBtn = el('button', { class:'btn icon', title:'아래로 이동', onclick:function(){ moveYouth(inst.id, 1); } }, [ text('▼') ]);
+          if(idx === 0) upBtn.disabled = true;
+          if(idx === state.youthInstitutions.length - 1) downBtn.disabled = true;
+          actionsCell.appendChild(upBtn);
+          actionsCell.appendChild(downBtn);
           actionsCell.appendChild(el('button', { class:'btn icon', title:'수정', onclick:function(){ state.editingYouthId = inst.id; renderYouthManageTable(); } }, [ text('✏️') ]));
           actionsCell.appendChild(el('button', { class:'btn icon', title:'삭제', onclick:function(){ state.confirmDeleteYouthId = inst.id; renderYouthManageTable(); } }, [ text('🗑') ]));
         }
@@ -1280,6 +1331,22 @@
       td.dataset.field = field;
       return td;
     }
+  }
+
+  function moveYouth(id, direction){
+    if(!state.sb) return;
+    var idx = state.youthInstitutions.findIndex(function(i){ return i.id === id; });
+    var swapIdx = idx + direction;
+    if(idx === -1 || swapIdx < 0 || swapIdx >= state.youthInstitutions.length) return;
+    var a = state.youthInstitutions[idx];
+    var b = state.youthInstitutions[swapIdx];
+    var aOrder = a.order, bOrder = b.order;
+    Promise.all([
+      state.sb.from('youthInstitutions').update({ order: bOrder }).eq('id', a.id),
+      state.sb.from('youthInstitutions').update({ order: aOrder }).eq('id', b.id)
+    ]).then(function(){
+      fetchYouthInstitutions();
+    }).catch(function(){});
   }
 
   function saveYouthEdit(id, tr){
@@ -1698,6 +1765,7 @@
     $('#add-youth-btn').addEventListener('click', addYouthInstitution);
 
     $('#unlock-btn').addEventListener('click', attemptUnlock);
+    $('#export-excel-btn').addEventListener('click', exportToExcel);
     $('#unlock-pw').addEventListener('keydown', function(e){
       if(e.key === 'Enter') attemptUnlock();
     });
